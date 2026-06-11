@@ -30,8 +30,8 @@ const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, on
       }
     };
     fetchSettings();
-    // Re-check every minute just in case admin toggles it while they are connected
-    const interval = setInterval(fetchSettings, 60000);
+    // Re-check every 5 seconds for near-instant global synchronization
+    const interval = setInterval(fetchSettings, 5000);
     
     window.addEventListener('systemSettingsChanged', fetchSettings);
 

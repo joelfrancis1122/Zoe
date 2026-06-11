@@ -1,0 +1,177 @@
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-standard);
+  transition: all var(--duration-fast) var(--ease-out);
+  margin-bottom: 6px;
+}
+
+.task-item:hover {
+  background: var(--bg-card-hover);
+}
+
+/* Drag handle */
+.task-drag-handle {
+  flex-shrink: 0;
+  color: var(--text-dim);
+  opacity: 0.3;
+  cursor: grab;
+  transition: opacity 0.2s;
+}
+
+.task-item:hover .task-drag-handle {
+  opacity: 0.8;
+}
+
+.task-drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Dragging state */
+.task-item.is-dragging {
+  background: rgba(0, 229, 160, 0.08);
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 16px var(--accent-glow);
+}
+
+/* Completed state */
+.task-item.completed {
+  opacity: 0.5;
+}
+
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Drop zone highlight */
+.drag-over {
+  background: rgba(0, 229, 160, 0.03) !important;
+  border-color: rgba(0, 229, 160, 0.2) !important;
+}
+
+.task-checkbox {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: all 0.2s;
+}
+
+.task-checkbox:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.task-item.completed .task-checkbox {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+}
+
+.task-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.task-title {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main);
+  transition: color var(--duration-fast);
+}
+
+.task-meta {
+  display: flex;
+  gap: var(--space-3);
+  font-family: var(--font-body);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  align-items: center;
+}
+
+.task-timer {
+  font-family: var(--font-display);
+  background: rgba(239, 68, 68, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* CORRUPTED TASK */
+.is-corrupted {
+  animation: taskGlitch 3s infinite;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.1);
+}
+
+@keyframes taskGlitch {
+  0% { transform: translate(0) }
+  1% { transform: translate(-2px, 1px) }
+  2% { transform: translate(2px, -1px) }
+  3% { transform: translate(0) }
+  100% { transform: translate(0) }
+}
+
+.task-diff {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+}
+
+.task-streak {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+}
+
+.inline-icon {
+  vertical-align: middle;
+}
+
+/* REMOVE BUTTON */
+.task-meltdown-btn,
+.task-remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  opacity: 0;
+}
+
+.task-item:hover .task-meltdown-btn,
+.task-item:hover .task-remove-btn {
+  opacity: 1;
+}
+
+.task-remove-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.task-meltdown-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}

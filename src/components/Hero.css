@@ -1,0 +1,104 @@
+.hero-section {
+  position: relative;
+  width: 100%;
+  background: var(--bg-primary);
+}
+
+/* Fixed 3D container, full screen to prevent cutoff, but shifted right */
+.hero-3d-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  contain: strict;
+  pointer-events: none; /* Re-enabled so robot is clickable */
+  transform: translateX(25vw); /* Shift the centered model to the right side */
+}
+
+.hero-spline {
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none; /* Re-enabled so robot is clickable */
+}
+
+.hero-loading {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+
+/* The actual text content that scrolls normally */
+.hero-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  padding-top: calc(var(--nav-height) + var(--space-10));
+  padding-bottom: var(--space-8);
+}
+
+.hero-text-block {
+  width: 50%;
+  padding-right: var(--space-6);
+  margin-top: 70px;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  border: 1px solid rgba(0, 229, 160, 0.2);
+  border-radius: 4px;
+  margin-bottom: var(--space-5);
+}
+
+.hero-title {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 1.05;
+  margin-bottom: var(--space-4);
+}
+
+.hero-subtitle {
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  max-width: 440px;
+  margin-bottom: var(--space-6);
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-4);
+}
+
+/* Invisible runway that gives the user space to scroll and trigger 3D animations */
+.hero-scroll-runway {
+  height: 400vh;
+  width: 100%;
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  .hero-3d-wrapper {
+    width: 100vw;
+    transform: translateX(0);
+    opacity: 0.3;
+  }
+  .hero-text-block {
+    width: 100%;
+    padding-right: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

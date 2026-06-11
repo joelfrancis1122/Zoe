@@ -1,0 +1,142 @@
+.skilltree-panel {
+  max-width: 900px;
+}
+
+.skilltree-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.skilltree-points {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 229, 160, 0.1);
+  border: 1px solid rgba(0, 229, 160, 0.3);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-left: auto;
+  margin-right: var(--space-4);
+  box-shadow: 0 0 16px rgba(0, 229, 160, 0.2);
+}
+
+.skilltree-content {
+  flex-direction: column;
+}
+
+.skilltree-intro {
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+.skilltree-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.aug-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s;
+}
+
+.aug-icon-wrapper {
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.aug-gold .aug-icon-wrapper { color: var(--xp-gold); background: rgba(245, 197, 66, 0.05); border-color: rgba(245, 197, 66, 0.2); }
+.aug-danger .aug-icon-wrapper { color: #ef4444; background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2); }
+.aug-accent .aug-icon-wrapper { color: var(--accent); background: rgba(0, 229, 160, 0.05); border-color: rgba(0, 229, 160, 0.2); }
+
+.aug-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.aug-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--text-main);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.aug-level {
+  font-family: var(--font-body);
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: var(--text-muted);
+}
+
+.aug-gold .aug-level { color: var(--xp-gold); background: rgba(245, 197, 66, 0.1); }
+.aug-danger .aug-level { color: #ef4444; background: rgba(239, 68, 68, 0.1); }
+.aug-accent .aug-level { color: var(--accent); background: rgba(0, 229, 160, 0.1); }
+
+.aug-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.aug-upgrade-btn {
+  padding: 12px 24px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.aug-upgrade-btn.locked {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: not-allowed;
+}
+
+.aug-upgrade-btn.can-upgrade {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.aug-upgrade-btn.can-upgrade:hover {
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.aug-gold .aug-upgrade-btn.can-upgrade { border-color: var(--xp-gold); color: var(--xp-gold); }
+.aug-gold .aug-upgrade-btn.can-upgrade:hover { background: var(--xp-gold); color: #000; box-shadow: 0 0 24px rgba(245, 197, 66, 0.4); }
+
+.aug-danger .aug-upgrade-btn.can-upgrade { border-color: #ef4444; color: #ef4444; }
+.aug-danger .aug-upgrade-btn.can-upgrade:hover { background: #ef4444; color: #000; box-shadow: 0 0 24px rgba(239, 68, 68, 0.4); }

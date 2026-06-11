@@ -1,0 +1,135 @@
+.player-hud {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  background: var(--bg-elevated);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin-bottom: var(--space-6);
+  width: 100%;
+}
+
+.hud-avatar {
+  flex-shrink: 0;
+}
+
+.hud-avatar.clickable {
+  cursor: pointer;
+  transition: transform var(--duration-fast);
+}
+
+.hud-avatar.clickable:hover {
+  transform: scale(1.05);
+}
+
+.hud-avatar.clickable:hover .hud-level-ring {
+  box-shadow: 0 0 24px var(--accent-glow-strong);
+}
+
+.hud-level-ring {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 229, 160, 0.05);
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+.hud-level-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.hud-stats {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.hud-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hud-bar-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.hud-bar-values {
+  margin-left: auto;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.hud-icon {
+  opacity: 0.8;
+}
+
+.health-icon { color: var(--health-green); }
+.exp-icon { color: var(--xp-gold); }
+.gold-icon { color: var(--xp-gold); }
+
+.hud-bar-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.hud-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.4s var(--ease-spring);
+}
+
+.health-fill {
+  background: var(--health-green);
+  box-shadow: 0 0 8px var(--health-green-glow);
+}
+
+.exp-fill {
+  background: var(--xp-gold);
+  box-shadow: 0 0 8px var(--xp-gold-glow);
+}
+
+.hud-currency {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  flex-shrink: 0;
+  transition: all var(--duration-fast);
+}
+
+.hud-currency.clickable {
+  cursor: pointer;
+}
+
+.hud-currency.clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 197, 66, 0.2);
+  border-color: rgba(245, 197, 66, 0.4);
+}
+
+.hud-coin-text {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--xp-gold);
+}

@@ -1,0 +1,175 @@
+.blackmarket-panel {
+  max-width: 600px;
+  background: rgba(10, 10, 12, 0.98);
+  border: 1px solid rgba(139, 92, 246, 0.3); /* Purple hue for BM */
+  box-shadow: 0 0 60px rgba(139, 92, 246, 0.1);
+}
+
+.blackmarket-title {
+  color: #a78bfa;
+}
+
+.bm-icon {
+  color: #8b5cf6;
+}
+
+.bm-coins {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245, 197, 66, 0.1);
+  color: var(--xp-gold);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  margin-left: auto;
+  margin-right: 16px;
+}
+
+.blackmarket-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 40px;
+}
+
+.bm-desc {
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 80%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 24px;
+}
+
+.bm-datacore-stage {
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.bm-offer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  animation: float 4s ease-in-out infinite;
+}
+
+.bm-offer-icon {
+  color: #a78bfa;
+  filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.4));
+}
+
+.bm-buy-btn {
+  background: transparent;
+  border: 1px solid #8b5cf6;
+  color: #a78bfa;
+  padding: 16px 32px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 16px;
+}
+
+.bm-buy-btn:hover {
+  background: #8b5cf6;
+  color: #000;
+  box-shadow: 0 0 32px rgba(139, 92, 246, 0.6);
+}
+
+.bm-decrypting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.bm-decrypt-icon {
+  color: var(--text-dim);
+}
+
+.glitch-anim {
+  animation: glitchFast 0.2s infinite;
+}
+
+@keyframes glitchFast {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 2px) }
+  40% { transform: translate(-2px, -2px) }
+  60% { transform: translate(2px, 2px) }
+  80% { transform: translate(2px, -2px) }
+  100% { transform: translate(0) }
+}
+
+.bm-glitch-text {
+  font-family: monospace;
+  font-size: 24px;
+  color: var(--text-main);
+  animation: textGlitch 0.1s infinite;
+}
+
+@keyframes textGlitch {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.bm-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.bm-result-icon {
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bm-result-text {
+  font-family: var(--font-display);
+  font-size: 24px;
+  max-width: 400px;
+}
+
+.bm-result.damage .bm-result-icon { color: #ef4444; filter: drop-shadow(0 0 24px rgba(239, 68, 68, 0.5)); }
+.bm-result.damage .bm-result-text { color: #ef4444; }
+
+.bm-result.dud .bm-result-icon { color: var(--text-dim); }
+.bm-result.dud .bm-result-text { color: var(--text-muted); }
+
+.bm-result.exp .bm-result-icon { color: var(--accent); filter: drop-shadow(0 0 24px var(--accent-glow)); }
+.bm-result.exp .bm-result-text { color: var(--accent); }
+
+.bm-btn.secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-main);
+  padding: 12px 24px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 16px;
+}
+
+.bm-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.bm-error {
+  font-family: monospace;
+  font-size: 14px;
+  margin-top: 8px;
+  animation: glitchFast 0.5s infinite;
+}

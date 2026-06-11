@@ -1,0 +1,155 @@
+/* MELTDOWN OVERLAY */
+.meltdown-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.5s;
+}
+
+.meltdown-backdrop.meltdown-failed {
+  background: rgba(153, 27, 27, 0.95); /* Deep dark red */
+  animation: bgPulse 2s infinite;
+}
+
+@keyframes bgPulse {
+  0% { background: rgba(153, 27, 27, 0.95); }
+  50% { background: rgba(220, 38, 38, 0.85); }
+  100% { background: rgba(153, 27, 27, 0.95); }
+}
+
+.meltdown-panel {
+  width: 90%;
+  max-width: 500px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.meltdown-active-content, .meltdown-failed-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.meltdown-icon {
+  margin-bottom: var(--space-2);
+}
+
+.meltdown-icon.pulse {
+  animation: iconPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+.meltdown-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.meltdown-desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 400px;
+}
+
+.meltdown-timer {
+  font-family: var(--font-display);
+  font-size: 80px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 0 32px rgba(255, 255, 255, 0.2);
+  margin: var(--space-6) 0;
+}
+
+.meltdown-task-box {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: var(--space-4);
+  border-radius: 4px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: var(--space-4);
+}
+
+.meltdown-task-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+.meltdown-task-title {
+  font-size: 18px;
+  color: #fff;
+}
+
+.meltdown-btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 16px 24px;
+  border-radius: 2px;
+  transition: all 0.2s;
+  cursor: pointer;
+  width: 100%;
+}
+
+.meltdown-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.meltdown-btn.primary {
+  background: var(--accent);
+  color: #000;
+  border: none;
+}
+
+.meltdown-btn.primary:not(:disabled):hover {
+  box-shadow: 0 0 24px var(--accent-glow-strong);
+  transform: scale(1.02);
+}
+
+.meltdown-btn.primary.danger-hover {
+  background: #fff;
+  color: #ef4444;
+}
+
+.meltdown-btn.primary.danger-hover:hover {
+  background: #ef4444;
+  color: #fff;
+  box-shadow: 0 0 32px rgba(239, 68, 68, 0.5);
+}
+
+.meltdown-btn.secondary {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.meltdown-btn.secondary:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}

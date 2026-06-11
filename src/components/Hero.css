@@ -80,12 +80,7 @@
   gap: var(--space-4);
 }
 
-/* Invisible runway that gives the user space to scroll and trigger 3D animations */
-.hero-scroll-runway {
-  height: 400vh;
-  width: 100%;
-  pointer-events: none;
-}
+
 
 @media (max-width: 1024px) {
   .hero-3d-wrapper {

@@ -29,9 +29,6 @@ export default function Hero({ onOpenStats, onOpenShop }) {
         </div>
       </div>
 
-      {/* SCROLL RUNWAY TO ALLOW 3D SCROLL ANIMATIONS TO PLAY */}
-      <div className="hero-scroll-runway"></div>
-
     </section>
   );
 }

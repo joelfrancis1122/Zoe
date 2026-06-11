@@ -17,7 +17,7 @@ async function verifyAdmin(req) {
     // Fallback: check DB if role was updated
     const user = await User.findById(decoded.id);
     return user && user.role === 'admin';
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     try {
       const items = await ShopItem.find({}).sort({ cost: 1 });
       return res.status(200).json({ success: true, data: items });
-    } catch (error) {
+    } catch {
       return res.status(500).json({ success: false, message: 'Server Error' });
     }
   }
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
     try {
       const newItem = await ShopItem.create({ title, cost, icon: icon || 'star' });
       return res.status(201).json({ success: true, data: newItem });
-    } catch (error) {
+    } catch {
       return res.status(500).json({ success: false, message: 'Server Error' });
     }
   }
@@ -65,7 +65,7 @@ export default async function handler(req, res) {
     try {
       await ShopItem.findByIdAndDelete(id);
       return res.status(200).json({ success: true, message: 'Item deleted' });
-    } catch (error) {
+    } catch {
       return res.status(500).json({ success: false, message: 'Server Error' });
     }
   }

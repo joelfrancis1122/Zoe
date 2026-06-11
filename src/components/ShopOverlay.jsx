@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { spendCoins } from '../features/userSlice';
-import { addReward, removeReward } from '../features/rewardsSlice';
 import { playPurchaseSound, playClickSound } from '../utils/audio';
-import { X, ShoppingCart, Plus, Film, Gamepad2, Shield, Star, Coins, Zap } from 'lucide-react';
+import { X, Film, Gamepad2, Shield, Star, Coins, Zap } from 'lucide-react';
 import './ShopOverlay.css';
 
 export default function ShopOverlay({ isOpen, onClose }) {
@@ -21,6 +20,7 @@ export default function ShopOverlay({ isOpen, onClose }) {
 
   useEffect(() => {
     if (!isOpen) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     fetch('/api/shop')
       .then(res => res.json())

@@ -41,6 +41,9 @@ const userSlice = createSlice({
         
         // Full heal on level up
         state.health = state.maxHealth;
+
+        // Grant 1 Augment Point per level up (BUG-5 fix)
+        state.augmentPoints += 1;
       }
     },
     takeDamage: (state, action) => {
@@ -95,27 +98,35 @@ const userSlice = createSlice({
     endMeltdown: (state) => {
       state.meltdownTask = null;
     },
-    runAudit: (state, action) => {
-      // For now, the audit just deals massive damage if you're audited.
-      // In a full implementation, this checks quotas.
+    runAudit: (state) => {
+      // System audit deals damage. Titanium plating reduces it.
       const damage = 25;
-      
-      // Titanium plating reduces it
       const titaniumLevel = state.augmentations?.titanium || 0;
       const reductionMultiplier = Math.max(0.1, 1 - (titaniumLevel * 0.10));
       const finalDamage = Math.ceil(damage * reductionMultiplier);
 
       state.health = Math.max(0, state.health - finalDamage);
-      state.nextAudit = new Date(Date.now() + 60 * 60 * 1000).toISOString(); // Reset for another hour
+
+      // Death penalty check (BUG-4 fix)
+      if (state.health === 0) {
+        state.level = Math.max(1, state.level - 1);
+        state.exp = 0;
+        state.maxExp = Math.floor(state.level * 100 * 1.2);
+        state.health = state.maxHealth;
+        state.coins = Math.floor(state.coins / 2);
+      }
+
+      state.nextAudit = new Date(Date.now() + 60 * 60 * 1000).toISOString();
     },
     setAuth: (state, action) => {
       state.token = action.payload.token;
       state.username = action.payload.username;
       state.role = action.payload.role;
-      state.level = action.payload.level || state.level;
-      state.exp = action.payload.exp || state.exp;
-      state.health = action.payload.health || state.health;
-      state.coins = action.payload.coins || state.coins;
+      // BUG-2 fix: use ?? to preserve zero values
+      state.level = action.payload.level ?? state.level;
+      state.exp = action.payload.exp ?? state.exp;
+      state.health = action.payload.health ?? state.health;
+      state.coins = action.payload.coins ?? state.coins;
       if (action.payload.augmentations) {
         state.augmentations = action.payload.augmentations;
       }
@@ -123,17 +134,17 @@ const userSlice = createSlice({
         state.hasCompletedProtocol = action.payload.hasCompletedProtocol;
       }
     },
-    logout: (state) => {
-      state.token = null;
-      state.username = null;
-      state.role = 'user';
+    logout: () => {
+      // BUG-12 fix: full state reset on logout to prevent data leaking between accounts
+      return { ...initialState };
     },
     syncUserState: (state, action) => {
       const data = action.payload;
-      state.level = data.level || state.level;
-      state.exp = data.exp || state.exp;
-      state.health = data.health || state.health;
-      state.coins = data.coins || state.coins;
+      // BUG-1 fix: use ?? to preserve zero values (0 coins, 0 exp, 0 health)
+      state.level = data.level ?? state.level;
+      state.exp = data.exp ?? state.exp;
+      state.health = data.health ?? state.health;
+      state.coins = data.coins ?? state.coins;
       if (data.augmentations) state.augmentations = data.augmentations;
       if (data.hasCompletedProtocol !== undefined) state.hasCompletedProtocol = data.hasCompletedProtocol;
       if (data.meltdownTask !== undefined) state.meltdownTask = data.meltdownTask;

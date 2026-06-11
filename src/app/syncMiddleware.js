@@ -5,8 +5,15 @@ export const syncMiddleware = store => next => action => {
 
   // Filter actions to only sync on state changes, ignore UI/local only actions
   if (action.type.startsWith('user/') || action.type.startsWith('tasks/') || action.type.startsWith('rewards/')) {
-    // Exclude setAuth and syncState to prevent infinite loops when fetching from DB
-    if (action.type === 'user/setAuth' || action.type.endsWith('/syncState')) {
+    // Exclude sync, auth, persist, and logout to prevent infinite loops or stale overwrites
+    if (
+      action.type === 'user/setAuth' ||
+      action.type === 'user/logout' ||
+      action.type === 'user/syncUserState' ||
+      action.type === 'tasks/syncTasksState' ||
+      action.type === 'rewards/syncRewardsState' ||
+      action.type.startsWith('persist/')
+    ) {
       return result;
     }
 

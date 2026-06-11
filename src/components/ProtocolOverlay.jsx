@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { completeProtocol } from '../features/userSlice';
-import { Terminal, AlertTriangle, ShieldAlert, Crosshair, Fingerprint } from 'lucide-react';
+import { Terminal, ShieldAlert, Crosshair, Fingerprint } from 'lucide-react';
 import { playClickSound } from '../utils/audio';
 import './ProtocolOverlay.css';
 
@@ -9,7 +9,6 @@ export default function ProtocolOverlay() {
   const dispatch = useDispatch();
   const [step, setStep] = useState(1);
   const [focus, setFocus] = useState(null);
-  const [glitchText, setGlitchText] = useState(false);
 
   // Auto-advance helper
   const nextStep = () => {
@@ -24,7 +23,7 @@ export default function ProtocolOverlay() {
 
   return (
     <div className="protocol-backdrop">
-      <div className={`protocol-panel ${glitchText ? 'glitch-anim' : ''}`}>
+      <div className="protocol-panel">
         
         {/* Terminal Header */}
         <div className="protocol-header">

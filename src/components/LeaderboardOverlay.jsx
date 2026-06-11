@@ -11,6 +11,7 @@ export default function LeaderboardOverlay({ isOpen, onClose }) {
   useEffect(() => {
     if (!isOpen) return;
     
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     fetch('/api/leaderboard')
       .then(res => res.json())
@@ -21,7 +22,7 @@ export default function LeaderboardOverlay({ isOpen, onClose }) {
           setError(data.message || 'Failed to fetch leaderboard');
         }
       })
-      .catch(err => setError('Connection error.'))
+      .catch(() => setError('Connection error.'))
       .finally(() => setLoading(false));
   }, [isOpen]);
 

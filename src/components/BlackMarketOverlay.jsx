@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { X, Package, Unlock, Skull, Zap, Coins } from 'lucide-react';
 import { spendCoins, gainExp, takeDamage } from '../features/userSlice';
-import { playPurchaseSound, playClickSound, playLevelUpSound, playDamageSound } from '../utils/audio';
+import { playClickSound, playLevelUpSound, playDamageSound } from '../utils/audio';
 import './BlackMarketOverlay.css';
 
 const DATACORE_COST = 200; // Expensive gamble

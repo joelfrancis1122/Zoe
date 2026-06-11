@@ -12,7 +12,7 @@ function authenticate(req) {
   const token = authHeader.split(' ')[1];
   try {
     return jwt.verify(token, JWT_SECRET);
-  } catch (e) {
+  } catch {
     return null;
   }
 }

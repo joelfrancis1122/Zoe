@@ -77,8 +77,6 @@ export default function AdminPanel({ isOpen, onClose }) {
     setLoadingSettings(false);
   };
 
-  if (!isOpen || role !== 'admin') return null;
-
   const handleAddGlobalReward = async (e) => {
     e.preventDefault();
     if (!title.trim()) return;
@@ -105,7 +103,7 @@ export default function AdminPanel({ isOpen, onClose }) {
       } else {
         setMsg('ERROR: ' + data.message);
       }
-    } catch (err) {
+    } catch {
       setMsg('ERROR: Connection failed.');
     }
     

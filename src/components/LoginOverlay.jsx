@@ -60,7 +60,7 @@ export default function LoginOverlay() {
       } else {
         setError(data.message);
       }
-    } catch (err) {
+    } catch {
       setError('Connection error. Is the server running?');
     }
     setLoading(false);

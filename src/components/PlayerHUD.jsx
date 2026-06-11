@@ -1,12 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { User, Award, Coins, Heart, Zap, Search } from 'lucide-react';
-import { runAudit } from '../features/userSlice';
+import { useSelector } from 'react-redux';
+import { Coins, Heart, Zap } from 'lucide-react';
 import { playLevelUpSound, playDamageSound, playClickSound } from '../utils/audio';
 import './PlayerHUD.css';
 
 export default function PlayerHUD({ onOpenStats, onOpenShop }) {
-  const dispatch = useDispatch();
   const { level, exp, maxExp, health, maxHealth, coins } = useSelector((state) => state.user);
   
   const [levelUpAnim, setLevelUpAnim] = useState(false);

@@ -13,7 +13,7 @@ function authenticateAdmin(req) {
     const decoded = jwt.verify(token, JWT_SECRET);
     if (decoded.role !== 'admin') return null;
     return decoded;
-  } catch (e) {
+  } catch {
     return null;
   }
 }

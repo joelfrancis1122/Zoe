@@ -136,7 +136,7 @@ export default function ProfileOverlay({ isOpen, onClose }) {
                   <span className="metric-label">System Health</span>
                   <span className="metric-value">{health} / {maxHealth}</span>
                 </div>
-                <div className="metric-bar-bg"><div className="metric-bar-fill health-color-bg" style={{ width: '100%'}}></div></div>
+                <div className="metric-bar-bg"><div className="metric-bar-fill health-color-bg" style={{ width: `${Math.min(100, (health / maxHealth) * 100)}%`}}></div></div>
               </div>
 
               <div className="metric-card glass-card">

@@ -4,6 +4,9 @@
 
 .leaderboard-title {
   color: var(--xp-gold);
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .lb-icon {

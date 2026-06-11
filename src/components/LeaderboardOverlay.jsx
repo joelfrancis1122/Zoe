@@ -32,7 +32,7 @@ export default function LeaderboardOverlay({ isOpen, onClose }) {
       <div className="overlay-panel leaderboard-panel">
         
         <div className="overlay-header">
-          <h2 className="overlay-title leaderboard-title"><Trophy size={20} className="lb-icon" /> GLOBAL LEADERBOARD</h2>
+          <h2 className="overlay-title leaderboard-title "><Trophy size={20} className="lb-icon" /> GLOBAL LEADERBOARD</h2>
           <button className="overlay-close" onClick={() => { playClickSound(); onClose(); }}>
             <X size={24} />
           </button>

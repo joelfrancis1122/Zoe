@@ -71,9 +71,14 @@ export default function LeaderboardOverlay({ isOpen, onClose }) {
                       {isRank3 && <Medal size={20} className="bronze drop-shadow" />}
                       {!isRank1 && !isRank2 && !isRank3 && <span className="rank-num">#{idx + 1}</span>}
                     </span>
-                    <span className={`lb-name ${user.role === 'admin' ? 'admin-name' : ''}`}>
-                      {user.username} {user.role === 'admin' && <span className="admin-badge">[ADMIN]</span>}
-                    </span>
+                    <div className={`lb-name-container ${user.role === 'admin' ? 'admin-name' : ''}`}>
+                      <div className="lb-name">
+                        {user.username} {user.role === 'admin' && <span className="admin-badge">[ADMIN]</span>}
+                      </div>
+                      <div className="lb-active-title">
+                        {user.activeTitle || 'Operator'}
+                      </div>
+                    </div>
                     <span className="lb-level">
                       <span className="lvl-label">LVL</span> {user.level}
                     </span>

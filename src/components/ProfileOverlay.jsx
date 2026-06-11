@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { X, Trophy, Activity, CalendarDays, Zap, ShoppingBag } from 'lucide-react';
+import { setActiveTitle } from '../features/userSlice';
+import { playClickSound } from '../utils/audio';
 import './ProfileOverlay.css';
 
 export default function ProfileOverlay({ isOpen, onClose }) {
-  const { level, exp, maxExp, health, maxHealth, coins, purchases = [], username, role } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { level, exp, maxExp, health, maxHealth, coins, purchases = [], username, role, unlockedTitles = ['Operator'], activeTitle = 'Operator' } = useSelector((state) => state.user);
   const { history = [] } = useSelector((state) => state.tasks) || {};
   const [activeTab, setActiveTab] = useState('weekly');
 
@@ -87,6 +90,11 @@ export default function ProfileOverlay({ isOpen, onClose }) {
   const currentData = chartData[activeTab];
   const maxValue = Math.max(...currentData.map(d => d.value), 1); // Fallback to 1 to prevent NaN height
 
+  const handleEquipTitle = (title) => {
+    playClickSound();
+    dispatch(setActiveTitle(title));
+  };
+
   return (
     <div className="overlay-backdrop">
       <div className="overlay-panel">
@@ -105,9 +113,14 @@ export default function ProfileOverlay({ isOpen, onClose }) {
           <div className="profile-identity">
             <div className="profile-header-info">
               <h1 className="profile-username">{username || 'ANONYMOUS'}</h1>
-              <span className={`profile-role ${role === 'admin' ? 'admin-badge' : 'user-badge'}`}>
-                {(role || 'user').toUpperCase()}
-              </span>
+              <div className="profile-badges">
+                <span className={`profile-role ${role === 'admin' ? 'admin-badge' : 'user-badge'}`}>
+                  {(role || 'user').toUpperCase()}
+                </span>
+                <span className="profile-title-badge">
+                  {activeTitle}
+                </span>
+              </div>
             </div>
 
             <div className="profile-ring-container">
@@ -242,6 +255,25 @@ export default function ProfileOverlay({ isOpen, onClose }) {
             <div className="analytics-summary">
               <CalendarDays size={16} className="text-dim" />
               <span className="text-dim">Tracking real EXP yields from your task completion history.</span>
+            </div>
+          </div>
+
+          {/* TITLES SECTION (NEW FULL WIDTH ROW) */}
+          <div className="profile-titles-section glass-card">
+            <div className="titles-header">
+              <h3><Trophy size={18} /> Active Title & Achievements</h3>
+              <span className="text-dim text-sm">Select a title to display globally</span>
+            </div>
+            <div className="titles-grid">
+              {unlockedTitles.map((title) => (
+                <button
+                  key={title}
+                  className={`title-btn ${title === activeTitle ? 'title-active' : ''}`}
+                  onClick={() => handleEquipTitle(title)}
+                >
+                  {title}
+                </button>
+              ))}
             </div>
           </div>
 

@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   try {
     // Get top 50 users sorted by Level (desc), then EXP (desc) as tiebreaker
     const users = await User.find({})
-      .select('username level exp role')
+      .select('username level exp role activeTitle')
       .sort({ level: -1, exp: -1 })
       .limit(50);
 

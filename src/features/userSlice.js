@@ -11,13 +11,11 @@ const initialState = {
   hasCompletedProtocol: false,
   protocolFocus: null,
   augmentPoints: 0,
-  augmentations: {
-    financial: 0,
-    titanium: 0,
-    neural: 0
-  },
+  augmentations: {},
   meltdownTask: null,
-  nextAudit: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour from now
+  nextAudit: null,
+  unlockedTitles: ['Operator'],
+  activeTitle: 'Operator',
   
   // Auth
   token: null,
@@ -98,6 +96,17 @@ const userSlice = createSlice({
     endMeltdown: (state) => {
       state.meltdownTask = null;
     },
+    unlockTitle: (state, action) => {
+      if (!state.unlockedTitles) state.unlockedTitles = ['Operator'];
+      if (!state.unlockedTitles.includes(action.payload)) {
+        state.unlockedTitles.push(action.payload);
+      }
+    },
+    setActiveTitle: (state, action) => {
+      if (state.unlockedTitles?.includes(action.payload)) {
+        state.activeTitle = action.payload;
+      }
+    },
     runAudit: (state) => {
       // System audit deals damage. Titanium plating reduces it.
       const damage = 25;
@@ -118,6 +127,9 @@ const userSlice = createSlice({
 
       state.nextAudit = new Date(Date.now() + 60 * 60 * 1000).toISOString();
     },
+    grantAugmentPoints: (state, action) => {
+      state.augmentPoints += action.payload;
+    },
     setAuth: (state, action) => {
       state.token = action.payload.token;
       state.username = action.payload.username;
@@ -133,6 +145,8 @@ const userSlice = createSlice({
       if (action.payload.hasCompletedProtocol !== undefined) {
         state.hasCompletedProtocol = action.payload.hasCompletedProtocol;
       }
+      if (action.payload.unlockedTitles) state.unlockedTitles = action.payload.unlockedTitles;
+      if (action.payload.activeTitle) state.activeTitle = action.payload.activeTitle;
     },
     logout: () => {
       // BUG-12 fix: full state reset on logout to prevent data leaking between accounts
@@ -149,9 +163,15 @@ const userSlice = createSlice({
       if (data.hasCompletedProtocol !== undefined) state.hasCompletedProtocol = data.hasCompletedProtocol;
       if (data.meltdownTask !== undefined) state.meltdownTask = data.meltdownTask;
       if (data.nextAudit !== undefined) state.nextAudit = data.nextAudit;
+      if (data.unlockedTitles) state.unlockedTitles = data.unlockedTitles;
+      if (data.activeTitle) state.activeTitle = data.activeTitle;
     }
   },
 });
 
-export const { gainExp, takeDamage, earnCoins, spendCoins, completeProtocol, upgradeAugmentation, startMeltdown, endMeltdown, runAudit, setAuth, logout, syncUserState } = userSlice.actions;
+export const { 
+  gainExp, takeDamage, earnCoins, spendCoins, completeProtocol, 
+  upgradeAugmentation, startMeltdown, endMeltdown, runAudit, 
+  setAuth, logout, syncUserState, unlockTitle, setActiveTitle, grantAugmentPoints
+} = userSlice.actions;
 export default userSlice.reducer;

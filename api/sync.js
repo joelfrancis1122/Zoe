@@ -43,6 +43,8 @@ export default async function handler(req, res) {
           hasCompletedProtocol: user.hasCompletedProtocol,
           meltdownTask: user.meltdownTask,
           nextAudit: user.nextAudit,
+          unlockedTitles: user.unlockedTitles,
+          activeTitle: user.activeTitle,
           habits: user.habits,
           dailies: user.dailies,
           todos: user.todos,

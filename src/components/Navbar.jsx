@@ -5,7 +5,7 @@ import { runAudit, logout } from '../features/userSlice';
 import { playDamageSound, playClickSound } from '../utils/audio';
 import './Navbar.css';
 
-const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, onOpenSystems, onOpenBlackMarket, onOpenLeaderboard, onOpenAdmin }) {
+const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, onOpenSystems, onOpenBlackMarket, onOpenDarkWeb, onOpenLeaderboard, onOpenAdmin }) {
   const dispatch = useDispatch();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -131,6 +131,7 @@ const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, on
           <li><button className="navbar__link" onClick={onOpenShop}>Shop</button></li>
           <li><button className="navbar__link" onClick={onOpenLeaderboard}>Leaderboard</button></li>
           <li><button className="navbar__link bm-link" style={{ color: '#a78bfa' }} onClick={onOpenBlackMarket}>Black Market</button></li>
+          <li><button className="navbar__link bm-link" style={{ color: '#ef4444', animation: 'pulse-danger 2s infinite' }} onClick={onOpenDarkWeb}>Dark Web</button></li>
           {role === 'admin' && (
             <li><button className="navbar__link admin-link" style={{ color: '#ef4444' }} onClick={onOpenAdmin}>Admin Override</button></li>
           )}
@@ -176,6 +177,7 @@ const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, on
           <li><button className="navbar__mobile-link" onClick={() => { onOpenShop(); closeMobileMenu(); }}>Shop</button></li>
           <li><button className="navbar__mobile-link" onClick={() => { onOpenLeaderboard(); closeMobileMenu(); }}>Leaderboard</button></li>
           <li><button className="navbar__mobile-link bm-link" style={{ color: '#a78bfa' }} onClick={() => { onOpenBlackMarket(); closeMobileMenu(); }}>Black Market</button></li>
+          <li><button className="navbar__mobile-link bm-link" style={{ color: '#ef4444' }} onClick={() => { onOpenDarkWeb(); closeMobileMenu(); }}>Dark Web</button></li>
           {role === 'admin' && (
             <li><button className="navbar__mobile-link admin-link" style={{ color: '#ef4444' }} onClick={() => { onOpenAdmin(); closeMobileMenu(); }}>Admin Override</button></li>
           )}

@@ -23,6 +23,8 @@ const UserSchema = new mongoose.Schema({
   // Game State
   meltdownTask: { type: mongoose.Schema.Types.Mixed, default: null },
   nextAudit: { type: String, default: null },
+  unlockedTitles: { type: [String], default: ['Operator'] },
+  activeTitle: { type: String, default: 'Operator' },
 
   // Tasks Data
   habits: { type: [mongoose.Schema.Types.Mixed], default: [] },

@@ -12,6 +12,7 @@ import BlackMarketOverlay from './components/BlackMarketOverlay';
 import LoginOverlay from './components/LoginOverlay';
 import LeaderboardOverlay from './components/LeaderboardOverlay';
 import AdminPanel from './components/AdminPanel';
+import DarkWebOverlay from './components/DarkWebOverlay';
 
 export default function App() {
   const [isStatsOpen, setIsStatsOpen] = useState(false);
@@ -21,6 +22,7 @@ export default function App() {
   const [isBlackMarketOpen, setIsBlackMarketOpen] = useState(false);
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [isDarkWebOpen, setIsDarkWebOpen] = useState(false);
 
   const { hasCompletedProtocol, meltdownTask, token } = useSelector((state) => state.user);
 
@@ -32,6 +34,7 @@ export default function App() {
         onOpenShop={() => setIsShopOpen(true)}
         onOpenSystems={() => setIsSystemsOpen(true)}
         onOpenBlackMarket={() => setIsBlackMarketOpen(true)}
+        onOpenDarkWeb={() => setIsDarkWebOpen(true)}
         onOpenLeaderboard={() => setIsLeaderboardOpen(true)}
         onOpenAdmin={() => setIsAdminOpen(true)}
       />
@@ -47,6 +50,7 @@ export default function App() {
       <RecordsOverlay isOpen={isRecordsOpen} onClose={() => setIsRecordsOpen(false)} />
       <SkillTreeOverlay isOpen={isSystemsOpen} onClose={() => setIsSystemsOpen(false)} />
       <BlackMarketOverlay isOpen={isBlackMarketOpen} onClose={() => setIsBlackMarketOpen(false)} />
+      <DarkWebOverlay isOpen={isDarkWebOpen} onClose={() => setIsDarkWebOpen(false)} />
       <LeaderboardOverlay isOpen={isLeaderboardOpen} onClose={() => setIsLeaderboardOpen(false)} />
       <AdminPanel isOpen={isAdminOpen} onClose={() => setIsAdminOpen(false)} />
 

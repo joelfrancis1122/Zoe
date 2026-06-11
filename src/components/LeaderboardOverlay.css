@@ -65,17 +65,26 @@
   color: var(--text-dim);
 }
 
+.lb-name-container {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  text-align: left;
+  gap: 0.1rem;
+}
+
+.lb-active-title {
+  font-size: 0.7rem;
+  color: var(--primary);
+  font-family: 'Space Mono', monospace;
+  opacity: 0.8;
+}
+
 .gold { color: #fbbf24; }
 .silver { color: #94a3b8; }
 .bronze { color: #b45309; }
 
-.lb-name {
-  color: var(--text-main);
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+
 
 .admin-name {
   color: var(--accent);

@@ -55,6 +55,15 @@ const userSlice = createSlice({
         state.augmentPoints += 1;
       }
     },
+    heal: (state, action) => {
+      const { amount } = action.payload;
+      state.health = Math.min(state.maxHealth, state.health + amount);
+    },
+    validateStats: (state) => {
+      if (state.health > state.maxHealth) {
+        state.health = state.maxHealth;
+      }
+    },
     takeDamage: (state, action) => {
       const { amount } = action.payload;
       
@@ -148,7 +157,7 @@ const userSlice = createSlice({
       // BUG-2 fix: use ?? to preserve zero values
       state.level = action.payload.level ?? state.level;
       state.exp = action.payload.exp ?? state.exp;
-      state.health = action.payload.health ?? state.health;
+      state.health = Math.min(action.payload.health ?? state.health, state.maxHealth);
       state.coins = action.payload.coins ?? state.coins;
       if (action.payload.augmentations) {
         state.augmentations = action.payload.augmentations;
@@ -170,7 +179,7 @@ const userSlice = createSlice({
       // BUG-1 fix: use ?? to preserve zero values (0 coins, 0 exp, 0 health)
       state.level = data.level ?? state.level;
       state.exp = data.exp ?? state.exp;
-      state.health = data.health ?? state.health;
+      state.health = Math.min(data.health ?? state.health, state.maxHealth);
       state.coins = data.coins ?? state.coins;
       if (data.augmentations) state.augmentations = data.augmentations;
       if (data.hasCompletedProtocol !== undefined) state.hasCompletedProtocol = data.hasCompletedProtocol;
@@ -184,7 +193,7 @@ const userSlice = createSlice({
 });
 
 export const { 
-  gainExp, takeDamage, earnCoins, spendCoins, completeProtocol, 
+  gainExp, heal, validateStats, takeDamage, earnCoins, spendCoins, completeProtocol, 
   upgradeAugmentation, startMeltdown, endMeltdown, runAudit, 
   setAuth, logout, syncUserState, unlockTitle, setActiveTitle, grantAugmentPoints, setDoubleXp
 } = userSlice.actions;

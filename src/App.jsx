@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { validateStats } from './features/userSlice';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProfilePage from './components/ProfilePage';
@@ -24,7 +25,15 @@ export default function App() {
   const [isDarkWebOpen, setIsDarkWebOpen] = useState(false);
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
 
-  const { hasCompletedProtocol, meltdownTask, token } = useSelector((state) => state.user);
+  const { hasCompletedProtocol, meltdownTask, token, health, maxHealth } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Catch cases where locally persisted health was stored above maxHealth before clamp logic was introduced
+    if (health > maxHealth) {
+      dispatch(validateStats());
+    }
+  }, [health, maxHealth, dispatch]);
 
   return (
     <>

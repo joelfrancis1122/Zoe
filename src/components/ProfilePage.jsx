@@ -148,7 +148,7 @@ export default function ProfilePage({ onBack }) {
               <div className="metric-card glass-card">
                 <Coins size={20} className="metric-icon coin-color" />
                 <div className="metric-info">
-                  <span className="metric-label">Lifetime Credits</span>
+                  <span className="metric-label">Lifetime Coins</span>
                   <span className="metric-value">{coins}</span>
                 </div>
               </div>

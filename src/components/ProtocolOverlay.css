@@ -101,7 +101,7 @@
   letter-spacing: 0.1em;
   padding: 14px 24px;
   border-radius: 2px;
-  transition: all 0.2s;
+  /* transition:; */
   cursor: pointer;
 }
 
@@ -156,7 +156,7 @@
   font-size: 14px;
   border-radius: 2px;
   cursor: pointer;
-  transition: all 0.2s;
+  /* transition:; */
 }
 
 .protocol-domain-btn:hover {
@@ -200,7 +200,7 @@
   padding: 16px;
   outline: none;
   border-radius: 2px;
-  transition: all 0.2s;
+  /* transition:; */
 }
 
 .protocol-input:focus {

@@ -17,6 +17,8 @@ const initialState = {
   unlockedTitles: ['Operator'],
   activeTitle: 'Operator',
   
+  doubleXpEnabled: false,
+  
   // Auth
   token: null,
   username: null,
@@ -27,8 +29,17 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setDoubleXp: (state, action) => {
+      state.doubleXpEnabled = action.payload;
+    },
     gainExp: (state, action) => {
-      const { amount } = action.payload;
+      let { amount } = action.payload;
+      
+      // Global Admin Event: Double XP
+      if (state.doubleXpEnabled) {
+        amount *= 2;
+      }
+      
       state.exp += amount;
 
       // Handle Level Up
@@ -147,6 +158,7 @@ const userSlice = createSlice({
       }
       if (action.payload.unlockedTitles) state.unlockedTitles = action.payload.unlockedTitles;
       if (action.payload.activeTitle) state.activeTitle = action.payload.activeTitle;
+      if (action.payload.purchases) state.purchases = action.payload.purchases;
     },
     logout: () => {
       // BUG-12 fix: full state reset on logout to prevent data leaking between accounts
@@ -165,6 +177,7 @@ const userSlice = createSlice({
       if (data.nextAudit !== undefined) state.nextAudit = data.nextAudit;
       if (data.unlockedTitles) state.unlockedTitles = data.unlockedTitles;
       if (data.activeTitle) state.activeTitle = data.activeTitle;
+      if (data.purchases) state.purchases = data.purchases;
     }
   },
 });
@@ -172,6 +185,6 @@ const userSlice = createSlice({
 export const { 
   gainExp, takeDamage, earnCoins, spendCoins, completeProtocol, 
   upgradeAugmentation, startMeltdown, endMeltdown, runAudit, 
-  setAuth, logout, syncUserState, unlockTitle, setActiveTitle, grantAugmentPoints
+  setAuth, logout, syncUserState, unlockTitle, setActiveTitle, grantAugmentPoints, setDoubleXp
 } = userSlice.actions;
 export default userSlice.reducer;

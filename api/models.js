@@ -34,7 +34,10 @@ const UserSchema = new mongoose.Schema({
   lastResetDate: { type: String, default: null },
 
   // Local Rewards (Inventory)
-  localRewards: { type: [mongoose.Schema.Types.Mixed], default: [] }
+  localRewards: { type: [mongoose.Schema.Types.Mixed], default: [] },
+  
+  // Shop Purchases
+  purchases: { type: [mongoose.Schema.Types.Mixed], default: [] }
 }, { timestamps: true });
 
 export const User = mongoose.models.User || mongoose.model('User', UserSchema);
@@ -49,7 +52,17 @@ export const ShopItem = mongoose.models.ShopItem || mongoose.model('ShopItem', S
 
 const SystemSettingsSchema = new mongoose.Schema({
   auditEnabled: { type: Boolean, default: true },
-  auditStartTime: { type: Number, default: () => Date.now() }
+  auditStartTime: { type: Number, default: () => Date.now() },
+  doubleXpEnabled: { type: Boolean, default: false },
+  globalAlertMessage: { type: String, default: "" },
+  lastEvent: {
+    type: {
+      type: String, // 'airdrop', 'heal', 'audit', 'alert'
+      default: null
+    },
+    message: { type: String, default: null },
+    timestamp: { type: Number, default: null }
+  }
 }, { timestamps: true });
 
 export const SystemSettings = mongoose.models.SystemSettings || mongoose.model('SystemSettings', SystemSettingsSchema);

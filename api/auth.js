@@ -20,9 +20,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ success: false, message: 'Username and password required' });
   }
 
+  const sanitizedUsername = username.trim().toLowerCase().replace(/\s+/g, '');
+
   try {
     if (action === 'register') {
-      const existingUser = await User.findOne({ username });
+      const existingUser = await User.findOne({ username: sanitizedUsername });
       if (existingUser) {
         return res.status(400).json({ success: false, message: 'Username already taken' });
       }
@@ -31,7 +33,7 @@ export default async function handler(req, res) {
       const hashedPassword = await bcrypt.hash(password, salt);
 
       const newUser = await User.create({
-        username,
+        username: sanitizedUsername,
         password: hashedPassword,
         role: 'user'
       });
@@ -56,7 +58,7 @@ export default async function handler(req, res) {
     }
 
     if (action === 'login') {
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ username: sanitizedUsername });
       if (!user) {
         return res.status(401).json({ success: false, message: 'Invalid credentials' });
       }

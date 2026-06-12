@@ -86,7 +86,7 @@
   color: var(--text-main);
   font-family: monospace;
   font-size: 14px;
-  transition: all 0.2s;
+  /* transition:; */
 }
 
 .input-group input:focus {
@@ -104,7 +104,7 @@
   font-size: 16px;
   letter-spacing: 0.1em;
   cursor: pointer;
-  transition: all 0.2s;
+  /* transition:; */
   margin-top: 8px;
 }
 
@@ -148,7 +148,7 @@
   color: var(--text-muted);
   background: transparent;
   border-radius: var(--radius-sm);
-  transition: all 0.2s;
+  /* transition:; */
 }
 
 .auth-tab:hover {

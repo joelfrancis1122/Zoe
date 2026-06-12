@@ -60,7 +60,7 @@ export default function ShopOverlay({ isOpen, onClose }) {
           <h2 className="overlay-title shop-title"><Zap size={20} className="shop-icon" /> Reward Requisitions</h2>
           <div className="shop-header-coins">
             <Coins size={18} className="coin-color" />
-            <span>{coins} Credits</span>
+            <span>{coins} Coins</span>
           </div>
           <button className="overlay-close" onClick={() => { playClickSound(); onClose(); }}>
             <X size={24} />

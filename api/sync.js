@@ -50,7 +50,8 @@ export default async function handler(req, res) {
           todos: user.todos,
           history: user.history,
           lastResetDate: user.lastResetDate,
-          localRewards: user.localRewards
+          localRewards: user.localRewards,
+          purchases: user.purchases
         }
       });
     } catch (error) {

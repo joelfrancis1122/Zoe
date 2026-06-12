@@ -1,5 +1,5 @@
 import dbConnect from './db.js';
-import { User } from './models.js';
+import { User, SystemSettings } from './models.js';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_cyber_key_12345';
@@ -28,7 +28,6 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      // Fetch all users, but exclude sensitive arrays to save bandwidth
       const users = await User.find({})
         .select('username role level exp health coins lastResetDate createdAt')
         .sort({ createdAt: -1 });
@@ -36,6 +35,82 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true, data: users });
     } catch (error) {
       console.error("Error fetching users:", error);
+      return res.status(500).json({ success: false, message: 'Server Error' });
+    }
+  }
+
+  if (req.method === 'PUT') {
+    const { id, updates, inc } = req.body;
+    try {
+      const updateObj = {};
+      if (updates) updateObj.$set = updates;
+      if (inc) updateObj.$inc = inc;
+      
+      const user = await User.findByIdAndUpdate(id, updateObj, { new: true });
+      if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+      
+      // Trigger targeted real-time sync
+      let settings = await SystemSettings.findOne({});
+      if (settings) {
+        settings.lastEvent = {
+          type: 'gift',
+          targetUsername: user.username,
+          message: 'Admin transferred resources to your account.',
+          timestamp: Date.now()
+        };
+        await settings.save();
+      }
+
+      return res.status(200).json({ success: true, data: user });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ success: false, message: 'Server Error' });
+    }
+  }
+
+  if (req.method === 'DELETE') {
+    const { id } = req.body;
+    try {
+      if (id === adminToken.id) {
+        return res.status(400).json({ success: false, message: 'Cannot delete yourself' });
+      }
+      await User.findByIdAndDelete(id);
+      return res.status(200).json({ success: true, message: 'User Terminated' });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ success: false, message: 'Server Error' });
+    }
+  }
+
+  if (req.method === 'POST') {
+    const { action, idempotencyKey } = req.body;
+    try {
+      let settings = await SystemSettings.findOne({});
+      if (!settings) settings = new SystemSettings({});
+
+      if (action === 'airdrop') {
+        if (idempotencyKey && settings.lastEvent && settings.lastEvent.idempotencyKey === idempotencyKey) {
+          return res.status(200).json({ success: true, message: 'Airdrop Already Deployed (Idempotent)' });
+        }
+        await User.updateMany({}, { $inc: { coins: 1000, exp: 500 } });
+        settings.lastEvent = { type: 'airdrop', message: 'Global Airdrop Deployed! +1000C +500XP', timestamp: Date.now(), idempotencyKey };
+        await settings.save();
+        return res.status(200).json({ success: true, message: 'Airdrop Deployed' });
+      }
+      
+      if (action === 'heal') {
+        if (idempotencyKey && settings.lastEvent && settings.lastEvent.idempotencyKey === idempotencyKey) {
+          return res.status(200).json({ success: true, message: 'Mass Heal Already Deployed (Idempotent)' });
+        }
+        await User.updateMany({}, { $set: { health: 1000 } }); 
+        settings.lastEvent = { type: 'heal', message: 'Mass Healing Activated! HP fully restored.', timestamp: Date.now(), idempotencyKey };
+        await settings.save();
+        return res.status(200).json({ success: true, message: 'Mass Healing Deployed' });
+      }
+
+      return res.status(400).json({ success: false, message: 'Unknown action' });
+    } catch (err) {
+      console.error(err);
       return res.status(500).json({ success: false, message: 'Server Error' });
     }
   }

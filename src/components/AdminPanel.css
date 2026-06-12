@@ -65,7 +65,7 @@
   padding: 12px;
   color: var(--text-main);
   border-radius: 4px;
-  transition: all 0.2s;
+  /* transition:; */
 }
 
 .admin-input-group input:focus {
@@ -85,7 +85,7 @@
   padding: 12px;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s;
+  /* transition:; */
 }
 
 .icon-btn.selected {
@@ -104,7 +104,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   cursor: pointer;
-  transition: all 0.2s;
+  /* transition:; */
   margin-top: 8px;
 }
 
@@ -146,7 +146,7 @@
   font-family: var(--font-display);
   font-size: 13px;
   border-radius: 4px;
-  transition: all 0.2s;
+  /* transition:; */
   letter-spacing: 1px;
 }
 
@@ -202,7 +202,7 @@
   font-size: 12px;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: all 0.2s;
+  /* transition:; */
 }
 
 .toggle-btn.active {
@@ -310,3 +310,158 @@
 .text-accent { color: var(--accent); }
 .text-dim { color: var(--text-dim); }
 .text-center { text-align: center; }
+
+/* Extend the existing AdminPanel.css */
+
+.admin-events-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.event-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+}
+
+.event-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.user-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.user-actions button {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 11px;
+  cursor: pointer;
+  /* transition:; */
+  color: var(--text-main);
+}
+
+.user-actions button:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.admin-shop-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.shop-list-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.shop-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+}
+
+.shop-list-item-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.shop-item-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 229, 160, 0.1);
+  border: 1px solid rgba(0, 229, 160, 0.2);
+  border-radius: 8px;
+}
+
+.shop-list-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.shop-item-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.shop-item-cost {
+  font-family: monospace;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.delete-shop-btn {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid transparent;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-shop-btn:hover {
+  color: var(--danger-red);
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.delete-btn {
+  color: var(--danger-red);
+  opacity: 0.5;
+  /* transition:; */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.hover-bg-danger:hover {
+  background: rgba(239, 68, 68, 0.1) !important;
+}
+
+.inline-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.mt-4 { margin-top: 16px; }
+.mt-6 { margin-top: 24px; }
+.mb-4 { margin-bottom: 16px; }
+.mb-6 { margin-bottom: 24px; }
+.w-full { width: 100%; }

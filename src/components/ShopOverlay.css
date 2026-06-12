@@ -70,11 +70,11 @@
   gap: var(--space-3);
   text-align: center;
   position: relative;
-  transition: transform 0.2s;
+  /* transition:; */
 }
 
 .shop-item:hover {
-  transform: translateY(-4px);
+/*   transform: translateY(-4px); */
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
 }
 
@@ -111,7 +111,7 @@
   justify-content: center;
   gap: 6px;
   width: 100%;
-  transition: all 0.3s var(--ease-out);
+  /* transition:; */
   user-select: none;
   overflow: hidden;
   z-index: 1;
@@ -127,7 +127,7 @@
   background: var(--xp-gold);
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.4s var(--ease-out);
+  /* transition:; */
   z-index: -1;
 }
 
@@ -230,7 +230,7 @@
   color: var(--text-main);
   padding: 0 20px;
   border-radius: var(--radius-sm);
-  transition: all 0.2s;
+  /* transition:; */
 }
 
 .shop-submit-btn:hover {

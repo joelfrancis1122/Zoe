@@ -217,7 +217,7 @@ p {
   background: var(--bg-card);
   border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: var(--radius-lg);
-  transition: all var(--duration-normal) var(--ease-out);
+  /* transition:; */
   /* frontend-rules.md: physical hover with perspective */
   transform-style: preserve-3d;
   perspective: 800px;
@@ -226,7 +226,7 @@ p {
 .glass-card:hover {
   background: var(--bg-card-hover);
   border-color: rgba(0, 229, 160, 0.12);
-  transform: translateY(-6px) rotateX(1deg);
+/*   transform: translateY(-6px) rotateX(1deg); */
   box-shadow:
     0 24px 48px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(0, 229, 160, 0.06);
@@ -252,7 +252,7 @@ p {
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: all var(--duration-normal) var(--ease-out);
+  /* transition:; */
 }
 
 .btn-primary::after {
@@ -261,11 +261,11 @@ p {
   inset: 0;
   background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
   opacity: 0;
-  transition: opacity var(--duration-fast);
+  /* transition:; */
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
+/*   transform: translateY(-2px); */
   box-shadow: 0 8px 32px var(--accent-glow-strong);
 }
 
@@ -275,7 +275,6 @@ p {
 
 .btn-primary:active {
   transform: translateY(1px) scale(0.97);
-  transition-duration: 80ms;
 }
 
 .btn-secondary {
@@ -293,19 +292,18 @@ p {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all var(--duration-normal) var(--ease-out);
+  /* transition:; */
 }
 
 .btn-secondary:hover {
   color: var(--text-main);
   border-color: rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.03);
-  transform: translateY(-2px);
+/*   transform: translateY(-2px); */
 }
 
 .btn-secondary:active {
   transform: translateY(1px) scale(0.97);
-  transition-duration: 80ms;
 }
 
 /* ================================================================
@@ -400,7 +398,7 @@ p {
 .reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  /* transition:; */
 }
 
 .reveal.visible {
@@ -411,7 +409,7 @@ p {
 .reveal-left {
   opacity: 0;
   transform: translateX(-32px);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  /* transition:; */
 }
 
 .reveal-left.visible {
@@ -471,6 +469,6 @@ p {
 .overlay-panel { width: 90%; max-width: 1000px; height: 80vh; background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-xl); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1); animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
 .overlay-header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-5) var(--space-6); border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(0, 0, 0, 0.3); }
 .overlay-title { font-family: var(--font-display); font-size: 24px; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 10px; }
-.overlay-close { background: transparent; color: var(--text-dim); transition: all 0.2s; }
+.overlay-close { background: transparent; color: var(--text-dim); /* transition:; */ }
 .overlay-close:hover { color: var(--accent); transform: scale(1.1) rotate(90deg); }
 .overlay-content { display: flex; flex: 1; padding: var(--space-6); gap: var(--space-6); overflow-y: auto; }

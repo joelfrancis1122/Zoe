@@ -6,7 +6,7 @@
   background: var(--bg-card);
   border: 1px solid rgba(255, 255, 255, 0.03);
   border-radius: var(--radius-standard);
-  transition: all var(--duration-fast) var(--ease-out);
+  /* transition:; */
   margin-bottom: 6px;
 }
 
@@ -20,7 +20,7 @@
   color: var(--text-dim);
   opacity: 0.3;
   cursor: grab;
-  transition: opacity 0.2s;
+  /* transition:; */
 }
 
 .task-item:hover .task-drag-handle {
@@ -64,7 +64,7 @@
   align-items: center;
   justify-content: center;
   color: transparent;
-  transition: all 0.2s;
+  /* transition:; */
 }
 
 .task-checkbox:hover:not(:disabled) {
@@ -90,7 +90,7 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--text-main);
-  transition: color var(--duration-fast);
+  /* transition:; */
 }
 
 .task-meta {
@@ -156,7 +156,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  /* transition:; */
   opacity: 0;
 }
 

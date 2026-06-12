@@ -50,8 +50,17 @@ export default async function handler(req, res) {
         // If we are turning it ON, reset the anchor timer so it starts a fresh 60-min countdown
         if (req.body.auditEnabled === true && settings.auditEnabled === false) {
           settings.auditStartTime = Date.now();
+          settings.lastEvent = {
+            type: 'audit',
+            message: 'SYSTEM AUDIT INITIATED! Brace for impact.',
+            timestamp: Date.now()
+          };
         }
         settings.auditEnabled = req.body.auditEnabled;
+      }
+
+      if (req.body.doubleXpEnabled !== undefined) {
+        settings.doubleXpEnabled = req.body.doubleXpEnabled;
       }
       
       await settings.save();

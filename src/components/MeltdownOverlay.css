@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.5s;
+  /* transition:; */
 }
 
 .meltdown-backdrop.meltdown-failed {
@@ -110,7 +110,7 @@
   letter-spacing: 0.1em;
   padding: 16px 24px;
   border-radius: 2px;
-  transition: all 0.2s;
+  /* transition:; */
   cursor: pointer;
   width: 100%;
 }

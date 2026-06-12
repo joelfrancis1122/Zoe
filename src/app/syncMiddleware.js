@@ -42,7 +42,8 @@ export const syncMiddleware = store => next => action => {
           todos: state.tasks.todos,
           history: state.tasks.history,
           lastResetDate: state.tasks.lastResetDate,
-          localRewards: state.rewards.items
+          localRewards: state.rewards.items,
+          purchases: state.user.purchases
         };
 
         fetch('/api/sync', {

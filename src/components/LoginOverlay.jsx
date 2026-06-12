@@ -39,7 +39,9 @@ export default function LoginOverlay() {
         dispatch(setAuth({
           token: data.token,
           username: data.user.username,
-          role: data.user.role
+          role: data.user.role,
+          id: data.user.id,
+          purchases: data.user.purchases
         }));
 
         try {

@@ -147,17 +147,7 @@
 
 /* CORRUPTED TASK */
 .is-corrupted {
-  transition: none !important;
-  animation: taskGlitch 3s infinite;
   box-shadow: 0 0 16px rgba(239, 68, 68, 0.1);
-}
-
-@keyframes taskGlitch {
-  0% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.1); }
-  1% { box-shadow: -4px 2px 24px rgba(239, 68, 68, 0.4); border-color: rgba(239, 68, 68, 0.8); }
-  2% { box-shadow: 4px -2px 24px rgba(239, 68, 68, 0.4); border-color: rgba(239, 68, 68, 0.8); }
-  3% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
-  100% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.1); }
 }
 
 .task-diff {

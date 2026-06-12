@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback, memo } from 'react';
+import { useState, useEffect, useCallback, memo, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Search, LogOut, User as UserIcon } from 'lucide-react';
 import { runAudit, logout } from '../features/userSlice';
 import { playDamageSound, playClickSound } from '../utils/audio';
 import './Navbar.css';
 
-const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, onOpenSystems, onOpenBlackMarket, onOpenDarkWeb, onOpenLeaderboard, onOpenAdmin }) {
+const Navbar = memo(function Navbar({ onOpenStats, onOpenShop, onOpenSystems, onOpenBlackMarket, onOpenDarkWeb, onOpenAchievements, onOpenLeaderboard, onOpenAdmin }) {
   const dispatch = useDispatch();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -14,6 +14,8 @@ const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, on
   const [auditTimeLeft, setAuditTimeLeft] = useState('');
   
   const { role, username } = useSelector((state) => state.user);
+  const { history = [] } = useSelector((state) => state.tasks) || {};
+
 
   // Fetch Global System Settings
   useEffect(() => {
@@ -117,7 +119,15 @@ const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, on
   }, []);
 
   return (
-    <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`} id="navbar">
+    <>
+      {auditEnabled && <div className="audit-danger-aura" />}
+      {auditEnabled && (
+        <div className="audit-toast glass-card">
+          <Search size={16} className="text-danger" />
+          <span className="audit-text">SYSTEM AUDIT IN: {auditTimeLeft}</span>
+        </div>
+      )}
+      <nav className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`} id="navbar">
       <div className="navbar__inner container">
         <a href="#" className="navbar__logo" id="nav-logo">
           <span className="navbar__logo-mark">⬡</span>
@@ -127,9 +137,9 @@ const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, on
         <ul className="navbar__links" id="nav-links">
           <li><button className="navbar__link" onClick={onOpenStats}>Profile</button></li>
           <li><button className="navbar__link" onClick={onOpenSystems}>Systems</button></li>
-          <li><button className="navbar__link" onClick={onOpenRecords}>Records</button></li>
           <li><button className="navbar__link" onClick={onOpenShop}>Shop</button></li>
           <li><button className="navbar__link" onClick={onOpenLeaderboard}>Leaderboard</button></li>
+          <li><button className="navbar__link" onClick={onOpenAchievements}>Achievements</button></li>
           <li><button className="navbar__link bm-link" style={{ color: '#a78bfa' }} onClick={onOpenBlackMarket}>Black Market</button></li>
           <li><button className="navbar__link bm-link" style={{ color: '#ef4444', animation: 'pulse-danger 2s infinite' }} onClick={onOpenDarkWeb}>Dark Web</button></li>
           {role === 'admin' && (
@@ -145,13 +155,6 @@ const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, on
             </div>
           )}
 
-          {/* Audit Warning */}
-          {auditEnabled && (
-            <div className="navbar__audit glass-card">
-              <Search size={14} className="text-danger" />
-              <span className="audit-text">AUDIT IN: {auditTimeLeft}</span>
-            </div>
-          )}
 
           <button className="navbar__logout glass-card" onClick={handleLogout} title="Terminate Link" style={{ cursor: 'pointer', padding: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <LogOut size={14} className="text-danger" />
@@ -173,21 +176,13 @@ const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, on
         <ul className="navbar__mobile-links">
           <li><button className="navbar__mobile-link" onClick={() => { onOpenStats(); closeMobileMenu(); }}>Profile</button></li>
           <li><button className="navbar__mobile-link" onClick={() => { onOpenSystems(); closeMobileMenu(); }}>Systems</button></li>
-          <li><button className="navbar__mobile-link" onClick={() => { onOpenRecords(); closeMobileMenu(); }}>Records</button></li>
           <li><button className="navbar__mobile-link" onClick={() => { onOpenShop(); closeMobileMenu(); }}>Shop</button></li>
           <li><button className="navbar__mobile-link" onClick={() => { onOpenLeaderboard(); closeMobileMenu(); }}>Leaderboard</button></li>
+          <li><button className="navbar__mobile-link" onClick={() => { onOpenAchievements(); closeMobileMenu(); }}>Achievements</button></li>
           <li><button className="navbar__mobile-link bm-link" style={{ color: '#a78bfa' }} onClick={() => { onOpenBlackMarket(); closeMobileMenu(); }}>Black Market</button></li>
           <li><button className="navbar__mobile-link bm-link" style={{ color: '#ef4444' }} onClick={() => { onOpenDarkWeb(); closeMobileMenu(); }}>Dark Web</button></li>
           {role === 'admin' && (
             <li><button className="navbar__mobile-link admin-link" style={{ color: '#ef4444' }} onClick={() => { onOpenAdmin(); closeMobileMenu(); }}>Admin Override</button></li>
-          )}
-          {auditEnabled && (
-            <li>
-              <div className="navbar__mobile-audit glass-card" style={{ marginBottom: '0.5rem' }}>
-                <Search size={14} className="text-danger" />
-                <span className="audit-text">SYSTEM AUDIT IN: {auditTimeLeft}</span>
-              </div>
-            </li>
           )}
           <li>
             <button className="navbar__mobile-link" style={{ color: '#ef4444', display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }} onClick={() => { handleLogout(); closeMobileMenu(); }}>
@@ -197,6 +192,7 @@ const Navbar = memo(function Navbar({ onOpenStats, onOpenRecords, onOpenShop, on
         </ul>
       </div>
     </nav>
+    </>
   );
 });
 

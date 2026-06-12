@@ -42,7 +42,6 @@ export default function LoginOverlay() {
           role: data.user.role
         }));
 
-        // Fetch Cloud Save Data
         try {
           const syncRes = await fetch('/api/sync', {
             headers: { 'Authorization': `Bearer ${data.token}` }
@@ -74,6 +73,23 @@ export default function LoginOverlay() {
         </h1>
         <p className="login-subtitle">NEURAL LINK IDENTIFICATION</p>
 
+        <div className="auth-tabs">
+          <button 
+            type="button"
+            className={`auth-tab ${!isRegister ? 'active' : ''}`}
+            onClick={() => { playClickSound(); setIsRegister(false); setError(''); }}
+          >
+            LOGIN
+          </button>
+          <button 
+            type="button"
+            className={`auth-tab ${isRegister ? 'active' : ''}`}
+            onClick={() => { playClickSound(); setIsRegister(true); setError(''); }}
+          >
+            REGISTER
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit} className="login-form">
           <div className="input-group">
             <label>OPERATOR HANDLE</label>
@@ -103,10 +119,6 @@ export default function LoginOverlay() {
             {loading ? 'INITIALIZING...' : (isRegister ? 'ESTABLISH LINK' : 'AUTHENTICATE')}
           </button>
         </form>
-
-        <button className="toggle-mode-btn" onClick={() => { playClickSound(); setIsRegister(!isRegister); }}>
-          {isRegister ? 'Already have a link? Authenticate.' : 'No link established? Register.'}
-        </button>
       </div>
     </div>
   );

@@ -325,8 +325,6 @@ p {
   -webkit-text-fill-color: transparent;
 }
 
-/* NOISE OVERLAY REMOVED FOR MAXIMUM PERFORMANCE */
-
 /* ================================================================
    KEYFRAME ANIMATIONS — frontend-rules.md: coordinated entries
    ================================================================ */
@@ -467,3 +465,12 @@ p {
 @media (max-width: 480px) {
   :root { --space-10: 3rem; }
 }
+
+/* --- SHARED OVERLAY CLASSES --- */
+.overlay-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 9999; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease-out; }
+.overlay-panel { width: 90%; max-width: 1000px; height: 80vh; background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-xl); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1); animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.overlay-header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-5) var(--space-6); border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(0, 0, 0, 0.3); }
+.overlay-title { font-family: var(--font-display); font-size: 24px; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 10px; }
+.overlay-close { background: transparent; color: var(--text-dim); transition: all 0.2s; }
+.overlay-close:hover { color: var(--accent); transform: scale(1.1) rotate(90deg); }
+.overlay-content { display: flex; flex: 1; padding: var(--space-6); gap: var(--space-6); overflow-y: auto; }

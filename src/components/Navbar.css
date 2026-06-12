@@ -160,3 +160,13 @@
   .navbar__links, .navbar__audit { display: none; }
   .navbar__burger { display: flex; }
 }
+
+/* AUDIT AURA */
+.audit-danger-aura { position: fixed; inset: 0; pointer-events: none; z-index: 9000; box-shadow: inset 0 0 120px rgba(239, 68, 68, 0.4); border: 2px solid rgba(239, 68, 68, 0.6); animation: pulseAura 2.5s infinite ease-in-out; }
+@keyframes pulseAura { 0% { box-shadow: inset 0 0 60px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.3); } 50% { box-shadow: inset 0 0 150px rgba(239, 68, 68, 0.6); border-color: rgba(239, 68, 68, 0.8); } 100% { box-shadow: inset 0 0 60px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.3); } }
+
+
+.audit-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9001; padding: 12px 24px; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(239, 68, 68, 0.4); box-shadow: 0 8px 32px rgba(239, 68, 68, 0.2), inset 0 0 16px rgba(239, 68, 68, 0.1); border-radius: var(--radius-full); animation: slideUpToast 0.4s cubic-bezier(0.16, 1, 0.3, 1), pulseWarning 2s infinite; }
+.audit-toast:hover { transform: translateX(-50%) !important; }
+@keyframes slideUpToast { from { bottom: -50px; opacity: 0; } to { bottom: 24px; opacity: 1; } }
+

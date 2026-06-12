@@ -6,6 +6,7 @@ import tasksReducer from './features/tasksSlice';
 import rewardsReducer from './features/rewardsSlice';
 import { syncMiddleware } from './app/syncMiddleware';
 import { achievementsMiddleware } from './app/achievementsMiddleware';
+import { streakRewardsMiddleware } from './app/streakRewardsMiddleware';
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 // Vite ESM fix: Define a custom storage wrapper for redux-persist
 const customStorage = {
@@ -41,7 +42,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(syncMiddleware, achievementsMiddleware),
+    }).concat(syncMiddleware, achievementsMiddleware, streakRewardsMiddleware),
 });
 
 export const persistor = persistStore(store);

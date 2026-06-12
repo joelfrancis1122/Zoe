@@ -1,19 +1,20 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { X, Trophy, Activity, CalendarDays, Zap, ShoppingBag } from 'lucide-react';
-import { setActiveTitle } from '../features/userSlice';
-import { playClickSound } from '../utils/audio';
-import './ProfileOverlay.css';
+import { useSelector } from 'react-redux';
+import { ArrowLeft, Activity, CalendarDays, Zap, ShoppingBag, Coins, Flame } from 'lucide-react';
+import './ProfilePage.css';
 
-export default function ProfileOverlay({ isOpen, onClose }) {
-  const dispatch = useDispatch();
-  const { level, exp, maxExp, health, maxHealth, coins, purchases = [], username, role, unlockedTitles = ['Operator'], activeTitle = 'Operator' } = useSelector((state) => state.user);
-  const { history = [] } = useSelector((state) => state.tasks) || {};
+export default function ProfilePage({ onBack }) {
+  const { level, exp, maxExp, health, maxHealth, coins, purchases = [], username, role } = useSelector((state) => state.user);
+  const { history = [], habits = [] } = useSelector((state) => state.tasks) || {};
   const [activeTab, setActiveTab] = useState('weekly');
 
-  if (!isOpen) return null;
-
   const expPercentage = Math.min(100, (exp / maxExp) * 100);
+
+  // CALCULATE RECORD METRICS
+  const longestStreak = habits.length > 0 ? Math.max(...habits.map(h => h.streak || 0)) : 0;
+  const mostProductiveDay = history.length > 0 ? Math.max(...history.map(h => h.tasksCompleted || 0)) : 0;
+  const highestExpDay = history.length > 0 ? Math.max(...history.map(h => h.expGained || 0)) : 0;
+  const totalTasks = history.reduce((sum, h) => sum + (h.tasksCompleted || 0), 0);
 
   // REAL DATA GENERATION FROM REDUX HISTORY
   const generateRealData = (type) => {
@@ -90,24 +91,19 @@ export default function ProfileOverlay({ isOpen, onClose }) {
   const currentData = chartData[activeTab];
   const maxValue = Math.max(...currentData.map(d => d.value), 1); // Fallback to 1 to prevent NaN height
 
-  const handleEquipTitle = (title) => {
-    playClickSound();
-    dispatch(setActiveTitle(title));
-  };
-
   return (
-    <div className="overlay-backdrop">
-      <div className="overlay-panel">
+    <div className="profile-page fade-in">
+      <div className="profile-page-inner">
         
         {/* HEADER */}
-        <div className="overlay-header">
-          <h2 className="overlay-title">Operator Profile</h2>
-          <button className="overlay-close" onClick={onClose}>
-            <X size={24} />
+        <div className="profile-page-header">
+          <button className="back-btn" onClick={onBack}>
+            <ArrowLeft size={20} /> Back to Dashboard
           </button>
+          <h2 className="page-title">Operator Profile</h2>
         </div>
 
-        <div className="overlay-content">
+        <div className="profile-page-content">
           
           {/* LEFT: IDENTITY & STATS */}
           <div className="profile-identity">
@@ -116,9 +112,6 @@ export default function ProfileOverlay({ isOpen, onClose }) {
               <div className="profile-badges">
                 <span className={`profile-role ${role === 'admin' ? 'admin-badge' : 'user-badge'}`}>
                   {(role || 'user').toUpperCase()}
-                </span>
-                <span className="profile-title-badge">
-                  {activeTitle}
                 </span>
               </div>
             </div>
@@ -153,7 +146,7 @@ export default function ProfileOverlay({ isOpen, onClose }) {
               </div>
 
               <div className="metric-card glass-card">
-                <Trophy size={20} className="metric-icon coin-color" />
+                <Coins size={20} className="metric-icon coin-color" />
                 <div className="metric-info">
                   <span className="metric-label">Lifetime Credits</span>
                   <span className="metric-value">{coins}</span>
@@ -201,41 +194,52 @@ export default function ProfileOverlay({ isOpen, onClose }) {
             {activeTab === 'monthly' ? (
               <div className="calendar-heatmap-container">
                 <div className="calendar-heatmap">
-                  {currentData.map((data, index) => {
-                    if (data.isPadding) {
-                      return <div key={`pad-${index}`} className="calendar-day padding-day" style={{ opacity: 0, pointerEvents: 'none' }}></div>;
-                    }
+                  <div className="calendar-weekdays">
+                    <span>Sun</span>
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                  </div>
+                  <div className="calendar-grid">
+                    {currentData.map((data, index) => {
+                      if (data.isPadding) {
+                        return <div key={`pad-${index}`} className="calendar-day padding-day" style={{ opacity: 0, pointerEvents: 'none' }}></div>;
+                      }
 
-                    // Calculate intensity of the green color based on EXP
-                    const intensity = maxValue > 1 ? data.value / maxValue : (data.value > 0 ? 1 : 0);
-                    // Base color is a very faint transparent, active color is neon green
-                    const bgStyle = data.value > 0 
-                      ? { backgroundColor: `rgba(0, 229, 160, ${intensity * 0.7 + 0.3})`, borderColor: `rgba(0, 229, 160, ${intensity * 0.5 + 0.5})` }
-                      : {};
-                      
-                    if (data.isFuture) {
-                      bgStyle.opacity = 0.3;
-                      bgStyle.pointerEvents = 'none';
-                    }
+                      // Calculate intensity of the green color based on EXP
+                      const intensity = maxValue > 1 ? data.value / maxValue : (data.value > 0 ? 1 : 0);
+                      // Base color is a very faint transparent, active color is neon green
+                      const bgStyle = data.value > 0 
+                        ? { backgroundColor: `rgba(0, 229, 160, ${intensity * 0.7 + 0.3})`, borderColor: `rgba(0, 229, 160, ${intensity * 0.5 + 0.5})` }
+                        : {};
+                        
+                      if (data.isFuture) {
+                        bgStyle.opacity = 0.3;
+                        bgStyle.pointerEvents = 'none';
+                      }
 
-                    return (
-                      <div key={index} className="calendar-day" style={bgStyle}>
-                        <span className="chart-tooltip">
-                          <strong>{data.tooltipDate}</strong><br/>
-                          {data.isFuture ? 'Future' : `${data.value} EXP`}
-                        </span>
-                        {/* Optional: Show tiny date number inside the box for extreme clarity */}
-                        <span className="calendar-date-number">{data.label}</span>
-                      </div>
-                    );
-                  })}
+                      return (
+                        <div key={index} className="calendar-day" style={bgStyle}>
+                          <span className="chart-tooltip">
+                            <strong>{data.tooltipDate}</strong><br/>
+                            {data.isFuture ? 'Future' : `${data.value} EXP`}
+                          </span>
+                          {/* Optional: Show tiny date number inside the box for extreme clarity */}
+                          <span className="calendar-date-number">{data.label}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             ) : (
               <div className="chart-container">
                 <div className="chart-bars">
                   {currentData.map((data, index) => {
-                    const heightPercent = (data.value / maxValue) * 100;
+                    const heightPercent = maxValue > 0 ? (data.value / maxValue) * 100 : 0;
                     return (
                       <div key={index} className="chart-bar-wrapper">
                         <div className="chart-bar" style={{ height: `${heightPercent}%` }}>
@@ -255,25 +259,6 @@ export default function ProfileOverlay({ isOpen, onClose }) {
             <div className="analytics-summary">
               <CalendarDays size={16} className="text-dim" />
               <span className="text-dim">Tracking real EXP yields from your task completion history.</span>
-            </div>
-          </div>
-
-          {/* TITLES SECTION (NEW FULL WIDTH ROW) */}
-          <div className="profile-titles-section glass-card">
-            <div className="titles-header">
-              <h3><Trophy size={18} /> Active Title & Achievements</h3>
-              <span className="text-dim text-sm">Select a title to display globally</span>
-            </div>
-            <div className="titles-grid">
-              {unlockedTitles.map((title) => (
-                <button
-                  key={title}
-                  className={`title-btn ${title === activeTitle ? 'title-active' : ''}`}
-                  onClick={() => handleEquipTitle(title)}
-                >
-                  {title}
-                </button>
-              ))}
             </div>
           </div>
 

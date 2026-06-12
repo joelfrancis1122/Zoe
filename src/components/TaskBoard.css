@@ -12,6 +12,8 @@
   gap: var(--space-4);
   padding: var(--space-3) var(--space-4);
   background: var(--bg-card);
+  position: relative;
+  z-index: 10;
 }
 
 .add-task-input {

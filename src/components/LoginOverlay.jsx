@@ -41,7 +41,8 @@ export default function LoginOverlay() {
           username: data.user.username,
           role: data.user.role,
           id: data.user.id,
-          purchases: data.user.purchases
+          purchases: data.user.purchases,
+          hasCompletedProtocol: data.user.hasCompletedProtocol
         }));
 
         try {

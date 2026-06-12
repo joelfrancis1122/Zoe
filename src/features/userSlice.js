@@ -159,6 +159,7 @@ const userSlice = createSlice({
       if (action.payload.unlockedTitles) state.unlockedTitles = action.payload.unlockedTitles;
       if (action.payload.activeTitle) state.activeTitle = action.payload.activeTitle;
       if (action.payload.purchases) state.purchases = action.payload.purchases;
+      if (action.payload.hasCompletedProtocol !== undefined) state.hasCompletedProtocol = action.payload.hasCompletedProtocol;
     },
     logout: () => {
       // BUG-12 fix: full state reset on logout to prevent data leaking between accounts

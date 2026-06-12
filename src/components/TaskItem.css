@@ -327,7 +327,7 @@
 }
 
 .btn-save:active {
-  transform: scale(0.95);
+  filter: brightness(0.9);
 }
 
 .btn-cancel {

@@ -265,24 +265,20 @@ export default function TaskItem({ task, type, index }) {
                       <option value="hard">Hard</option>
                     </select>
                     <div className="edit-actions">
-                      <div
+                      <button
+                        type="button"
                         className="btn-save"
-                        onMouseDown={handleSaveEdit}
-                        role="button"
-                        tabIndex="0"
-                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                        onClick={handleSaveEdit}
                       >
                         Save
-                      </div>
-                      <div
+                      </button>
+                      <button
+                        type="button"
                         className="btn-cancel"
-                        onMouseDown={handleCancelEdit}
-                        role="button"
-                        tabIndex="0"
-                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                        onClick={handleCancelEdit}
                       >
                         Cancel
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>

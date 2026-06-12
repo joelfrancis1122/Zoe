@@ -108,6 +108,20 @@ const tasksSlice = createSlice({
       }
     },
 
+    // --- UPDATE TASK ---
+    updateTask: (state, action) => {
+      const { id, type, updates } = action.payload;
+      let list = [];
+      if (type === 'habit') list = state.habits;
+      else if (type === 'daily') list = state.dailies;
+      else if (type === 'todo') list = state.todos;
+
+      const taskIndex = list.findIndex(t => t.id === id);
+      if (taskIndex !== -1) {
+        list[taskIndex] = { ...list[taskIndex], ...updates };
+      }
+    },
+
     // --- MOVE TASK (DRAG AND DROP) ---
     moveTask: (state, action) => {
       const { source, destination } = action.payload;
@@ -157,5 +171,5 @@ const tasksSlice = createSlice({
   },
 });
 
-export const { addTask, completeTask, removeTask, moveTask, checkDailyReset, syncTasksState } = tasksSlice.actions;
+export const { addTask, completeTask, removeTask, updateTask, moveTask, checkDailyReset, syncTasksState } = tasksSlice.actions;
 export default tasksSlice.reducer;

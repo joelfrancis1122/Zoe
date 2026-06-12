@@ -87,21 +87,23 @@
 
 .task-title {
   font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   color: var(--text-main);
+  margin-bottom: 2px;
   /* transition:; */
 }
 
 .task-meta {
   display: flex;
   gap: var(--space-3);
-  font-family: var(--font-body);
+  font-family: var(--font-display); /* Use the retro font for meta tags */
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-weight: 600;
+  font-weight: 800;
   align-items: center;
+  margin-top: 2px;
 }
 
 .task-timer {
@@ -128,9 +130,10 @@
 
 .task-diff {
   text-transform: uppercase;
-  font-weight: 600;
-  font-size: 10px;
+  font-weight: 800;
+  font-size: 11px;
   letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .task-streak {
@@ -142,6 +145,20 @@
 
 .inline-icon {
   vertical-align: middle;
+}
+
+/* TASK ACTIONS */
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.task-item:hover .task-actions {
+  opacity: 1;
 }
 
 /* REMOVE BUTTON */
@@ -156,13 +173,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* transition:; */
-  opacity: 0;
-}
-
-.task-item:hover .task-meltdown-btn,
-.task-item:hover .task-remove-btn {
-  opacity: 1;
+  transition: all 0.2s ease;
 }
 
 .task-remove-btn:hover {
@@ -174,4 +185,297 @@
   background: rgba(239, 68, 68, 0.1);
   color: var(--accent);
   box-shadow: 0 0 12px var(--accent-glow);
+}
+
+/* EDIT BUTTON */
+.task-edit-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.task-edit-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+}
+
+/* EDIT FORM */
+.task-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.edit-input,
+.edit-textarea,
+.edit-select {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 14px;
+  width: 100%;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-textarea {
+  min-height: 70px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.edit-input:focus,
+.edit-textarea:focus,
+.edit-select:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 2px rgba(0, 229, 160, 0.2);
+}
+
+.edit-select option {
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+.edit-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-select {
+  width: auto;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-save,
+.btn-cancel {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, var(--accent) 0%, #00b377 100%);
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0, 229, 160, 0.2);
+}
+
+.btn-save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 229, 160, 0.3);
+}
+
+.btn-save:active {
+  transform: translateY(1px);
+}
+
+.btn-cancel {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* EXPAND PILLS (Notes & Checklists) */
+.task-expand-pills {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
+.task-expand-toggle {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.02);
+}
+
+.task-expand-toggle:hover {
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--text-main);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pill-text {
+  margin: 0 6px;
+  font-size: 12px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.task-expanded-content {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.15);
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-top: 6px;
+  border-left: 3px solid var(--accent);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: pre-wrap;
+  animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: top;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: scaleY(0.95); }
+  to { opacity: 1; transform: scaleY(1); }
+}
+
+/* CHECKLIST SPECIFIC */
+.checklist-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-left-color: #3b82f6; /* Blue for checklists */
+}
+
+.checklist-item-view {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checklist-checkbox {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.checklist-checkbox:checked {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.checklist-checkbox:checked::after {
+  content: "✓";
+  font-size: 10px;
+  color: white;
+}
+
+.completed-text {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/* EDIT CHECKLIST */
+.edit-checklist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.checklist-item-edit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.btn-remove-item {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+}
+
+.btn-remove-item:hover {
+  color: #ef4444;
+}
+
+.add-checklist-item {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.new-item-input {
+  flex: 1;
+}
+
+.btn-add-item {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  padding: 0 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-add-item:hover {
+  background: rgba(255, 255, 255, 0.2);
 }

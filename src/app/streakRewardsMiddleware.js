@@ -27,6 +27,11 @@ export const calculateStreak = (history) => {
 };
 
 export const streakRewardsMiddleware = (store) => (next) => (action) => {
+  // Ignore state rehydration so we don't accidentally trigger streak rewards on refresh!
+  if (action.type && action.type.startsWith('persist/')) {
+    return next(action);
+  }
+
   const stateBefore = store.getState();
   const historyBefore = stateBefore.tasks.history || [];
   const streakBefore = calculateStreak(historyBefore);

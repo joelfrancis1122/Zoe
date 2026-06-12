@@ -20,8 +20,11 @@
     "mongoose": "^9.7.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
+    "react-markdown": "^10.1.0",
     "react-redux": "^9.3.0",
     "redux-persist": "^6.0.0",
+    "remark-breaks": "^4.0.0",
+    "remark-gfm": "^4.0.1",
     "uuid": "^14.0.0"
   },
   "devDependencies": {

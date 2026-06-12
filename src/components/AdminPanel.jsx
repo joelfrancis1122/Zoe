@@ -57,7 +57,7 @@ export default function AdminPanel({ isOpen, onClose }) {
   if (!isOpen || role !== 'admin') return null;
 
   // --- API CALLS ---
-  const fetchUsers = async () => {
+  async function fetchUsers() {
     setLoadingUsers(true);
     try {
       const res = await fetch('/api/users', { headers: { 'Authorization': `Bearer ${token}` } });
@@ -67,7 +67,7 @@ export default function AdminPanel({ isOpen, onClose }) {
     setLoadingUsers(false);
   };
 
-  const fetchShopItems = async () => {
+  async function fetchShopItems() {
     try {
       const res = await fetch('/api/shop');
       const data = await res.json();

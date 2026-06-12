@@ -1,10 +1,11 @@
 import { lazy, Suspense } from 'react';
 import PlayerHUD from './PlayerHUD';
 import TaskBoard from './TaskBoard';
+import { ErrorBoundary } from './ErrorBoundary';
 import './Hero.css';
 
 const Spline = lazy(() => import('@splinetool/react-spline'));
-const SCENE_URL = 'https://prod.spline.design/nwZEwL0gexp0PpaE/scene.splinecode';
+const SCENE_URL = "https://prod.spline.design/nwZEwL0gexp0PpaE/scene.splinecode";
 
 export default function Hero({ onOpenStats, onOpenShop }) {
 
@@ -13,9 +14,11 @@ export default function Hero({ onOpenStats, onOpenShop }) {
 
       {/* BACKGROUND: 3D MODEL FIXED TO RIGHT SIDE */}
       <div className="hero-3d-wrapper">
-        <Suspense fallback={<div className="hero-loading">Loading Protocol...</div>}>
-          <Spline scene={SCENE_URL} className="hero-spline" />
-        </Suspense>
+        <ErrorBoundary fallback={<div className="hero-loading" style={{ color: '#ef4444' }}>Spline 3D Model Unavailable (403 Forbidden). Please check URL.</div>}>
+          <Suspense fallback={<div className="hero-loading">Loading Protocol...</div>}>
+            <Spline scene={SCENE_URL} className="hero-spline" />
+          </Suspense>
+        </ErrorBoundary>
       </div>
 
       {/* FOREGROUND: SCROLLABLE GAMIFICATION DASHBOARD ON LEFT SIDE */}

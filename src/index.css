@@ -33,6 +33,20 @@ body {
   line-height: 1.6;
   color: var(--text-main);
   background: var(--bg-primary);
+  position: relative;
+}
+
+/* Subtly textured background */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.025; /* Extremely subtle */
 }
 
 img, video, canvas, svg {
@@ -214,22 +228,25 @@ p {
 }
 
 .glass-card {
-  background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-lg);
-  /* transition:; */
-  /* frontend-rules.md: physical hover with perspective */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   transform-style: preserve-3d;
-  perspective: 800px;
+  perspective: 1000px;
+  transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-spring), border-color 0.4s var(--ease-out);
 }
 
 .glass-card:hover {
-  background: var(--bg-card-hover);
-  border-color: rgba(0, 229, 160, 0.12);
-/*   transform: translateY(-6px) rotateX(1deg); */
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border-color: rgba(0, 229, 160, 0.2);
   box-shadow:
-    0 24px 48px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(0, 229, 160, 0.06);
+    0 16px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(0, 229, 160, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  /* Transform will be applied individually to specific cards that need movement */
 }
 
 /* ================================================================
@@ -243,30 +260,31 @@ p {
   padding: 14px var(--space-6);
   font-family: var(--font-display);
   font-size: var(--text-sm);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: #050505;
-  background: var(--accent);
-  border: none;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #000;
+  background: linear-gradient(135deg, var(--accent) 0%, #00b377 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-sm);
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  /* transition:; */
+  box-shadow: 0 4px 16px var(--accent-glow);
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
 }
 
 .btn-primary::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(135deg, rgba(255,255,255,0.4), transparent);
   opacity: 0;
-  /* transition:; */
+  transition: opacity 0.2s var(--ease-out);
 }
 
 .btn-primary:hover {
-/*   transform: translateY(-2px); */
-  box-shadow: 0 8px 32px var(--accent-glow-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px var(--accent-glow-strong), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .btn-primary:hover::after {

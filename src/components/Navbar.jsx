@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, memo, useMemo, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Search, LogOut, Bell } from 'lucide-react';
 import { runAudit, logout, setDoubleXp, syncUserState } from '../features/userSlice';
-import { playDamageSound, playClickSound } from '../utils/audio';
+import { playDamageSound, playClickSound, playLevelUpSound } from '../utils/audio';
 import './Navbar.css';
 
 const Navbar = memo(function Navbar({ onOpenStats, onOpenShop, onOpenSystems, onOpenBlackMarket, onOpenDarkWeb, onOpenAchievements, onOpenLeaderboard, onOpenAdmin }) {

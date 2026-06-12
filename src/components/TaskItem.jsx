@@ -5,6 +5,9 @@ import { completeTask, removeTask, updateTask, getExpReward } from '../features/
 import { gainExp, earnCoins, startMeltdown, takeDamage } from '../features/userSlice';
 import { Draggable } from '@hello-pangea/dnd';
 import { Check, GripVertical, Trophy, X, Flame, AlertTriangle, Edit2, ChevronDown, ChevronUp, AlignLeft, List } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
 import { playClickSound, playDamageSound } from '../utils/audio';
 import './TaskItem.css';
 
@@ -54,22 +57,34 @@ export default function TaskItem({ task, type, index }) {
   const [isChecklistExpanded, setIsChecklistExpanded] = useState(false);
 
   const handleSaveEdit = (e) => {
+    e.preventDefault();
     e.stopPropagation();
-    if (!editTitle.trim()) return;
-    dispatch(updateTask({
-      id: task.id,
-      type,
-      updates: {
-        title: editTitle,
-        notes: editNotes,
-        difficulty: editDiff,
-        checklist: editChecklist
-      }
-    }));
-    setIsEditing(false);
+
+    if (!editTitle || typeof editTitle !== 'string' || !editTitle.trim()) {
+      alert("Task title cannot be empty!");
+      return;
+    }
+
+    try {
+      dispatch(updateTask({
+        id: task.id,
+        type,
+        updates: {
+          title: editTitle,
+          notes: editNotes,
+          difficulty: editDiff,
+          checklist: editChecklist
+        }
+      }));
+      setIsEditing(false);
+    } catch (error) {
+      alert("Error saving task: " + error.message);
+      setIsEditing(false);
+    }
   };
 
   const handleCancelEdit = (e) => {
+    e.preventDefault();
     e.stopPropagation();
     setEditTitle(task.title);
     setEditNotes(task.notes || '');
@@ -103,7 +118,7 @@ export default function TaskItem({ task, type, index }) {
   // Habit Cooldown Timer Logic
   useEffect(() => {
     if (type !== 'habit' || !task.lastCompletedAt) return;
-    
+
     const HABIT_COOLDOWN_MS = 2 * 60 * 60 * 1000; // 2 hours
     const lastCompleted = new Date(task.lastCompletedAt).getTime();
 
@@ -126,7 +141,7 @@ export default function TaskItem({ task, type, index }) {
     if (task.completed) return;
     playClickSound();
     dispatch(completeTask({ id: task.id, type }));
-    
+
     let expYield = getExpReward(task.difficulty);
     if (task.isCorrupted) expYield *= 3; // Triple EXP for Boss Fights!
     let coinsYield = Math.ceil(expYield / 5);
@@ -150,8 +165,8 @@ export default function TaskItem({ task, type, index }) {
     <Draggable draggableId={task.id} index={index}>
       {(provided, snapshot) => {
         const child = (
-          <div 
-            className={`task-item ${isCompleted ? 'completed' : ''} ${snapshot.isDragging ? 'is-dragging' : ''} ${task.isCorrupted ? 'is-corrupted' : ''}`}
+          <div
+            className={`task-item ${isCompleted ? 'completed' : ''} ${snapshot.isDragging ? 'is-dragging' : ''} ${task.isCorrupted ? 'is-corrupted' : ''} ${isEditing ? 'is-editing' : ''}`}
             ref={provided.innerRef}
             {...provided.draggableProps}
             style={{
@@ -165,28 +180,29 @@ export default function TaskItem({ task, type, index }) {
               <GripVertical size={16} />
             </div>
 
-            <button 
-              className="task-checkbox" 
+            <button
+              type="button"
+              className="task-checkbox"
               onClick={handleComplete}
               disabled={isCompleted || isEditing}
             >
               {isCompleted && type !== 'habit' && <Check size={14} />}
               {isCompleted && type === 'habit' && <Check size={14} className="text-muted" />}
             </button>
-            
+
             <div className="task-content">
               {isEditing ? (
                 <div className="task-edit-form" onClick={(e) => e.stopPropagation()}>
-                  <input 
-                    className="edit-input" 
-                    value={editTitle} 
+                  <input
+                    className="edit-input"
+                    value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
                     autoFocus
                   />
-                  <textarea 
-                    className="edit-textarea" 
-                    placeholder="Add notes..." 
-                    value={editNotes} 
+                  <textarea
+                    className="edit-textarea"
+                    placeholder="Add notes..."
+                    value={editNotes}
                     onChange={(e) => setEditNotes(e.target.value)}
                   />
 
@@ -194,7 +210,8 @@ export default function TaskItem({ task, type, index }) {
                     {editChecklist.map((item) => (
                       <div key={item.id} className="checklist-item-edit">
                         <span className="checklist-item-text">{item.text}</span>
-                        <button 
+                        <button
+                          type="button"
                           className="btn-remove-item"
                           onClick={(e) => {
                             e.preventDefault();
@@ -206,9 +223,9 @@ export default function TaskItem({ task, type, index }) {
                       </div>
                     ))}
                     <div className="add-checklist-item">
-                      <input 
-                        className="edit-input new-item-input" 
-                        placeholder="Add checklist item..." 
+                      <input
+                        className="edit-input new-item-input"
+                        placeholder="Add checklist item..."
                         value={newChecklistItem}
                         onChange={(e) => setNewChecklistItem(e.target.value)}
                         onKeyDown={(e) => {
@@ -221,7 +238,8 @@ export default function TaskItem({ task, type, index }) {
                           }
                         }}
                       />
-                      <button 
+                      <button
+                        type="button"
                         className="btn-add-item"
                         onClick={(e) => {
                           e.preventDefault();
@@ -236,9 +254,9 @@ export default function TaskItem({ task, type, index }) {
                     </div>
                   </div>
                   <div className="edit-controls">
-                    <select 
-                      className="edit-select" 
-                      value={editDiff} 
+                    <select
+                      className="edit-select"
+                      value={editDiff}
                       onChange={(e) => setEditDiff(e.target.value)}
                     >
                       <option value="trivial">Trivial</option>
@@ -247,52 +265,101 @@ export default function TaskItem({ task, type, index }) {
                       <option value="hard">Hard</option>
                     </select>
                     <div className="edit-actions">
-                      <button className="btn-save" onClick={handleSaveEdit}>Save</button>
-                      <button className="btn-cancel" onClick={handleCancelEdit}>Cancel</button>
+                      <div
+                        className="btn-save"
+                        onMouseDown={handleSaveEdit}
+                        role="button"
+                        tabIndex="0"
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                      >
+                        Save
+                      </div>
+                      <div
+                        className="btn-cancel"
+                        onMouseDown={handleCancelEdit}
+                        role="button"
+                        tabIndex="0"
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                      >
+                        Cancel
+                      </div>
                     </div>
                   </div>
                 </div>
               ) : (
                 <>
-                  <h4 className="task-title">
-                    {task.isCorrupted && <AlertTriangle size={14} className="text-danger inline-icon" />}
-                    {task.title}
-                  </h4>
-                  
-                  <div className="task-expand-pills">
-                    {task.notes && (
-                      <button 
-                        className="task-expand-toggle"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsNoteExpanded(!isNoteExpanded);
-                        }}
-                      >
-                        <AlignLeft size={12} className="inline-icon" />
-                        <span className="pill-text">Notes</span>
-                        {isNoteExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                      </button>
-                    )}
-                    {task.checklist && task.checklist.length > 0 && (
-                      <button 
-                        className="task-expand-toggle"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsChecklistExpanded(!isChecklistExpanded);
-                        }}
-                      >
-                        <List size={12} className="inline-icon" />
-                        <span className="pill-text">
-                          {task.checklist.filter(i => i.completed).length}/{task.checklist.length}
-                        </span>
-                        {isChecklistExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                      </button>
+                  <div className="task-title-wrapper">
+                    <h4 className="task-title">
+                      {task.isCorrupted && <AlertTriangle size={14} className="text-danger inline-icon" />}
+                      {task.title}
+                    </h4>
+                    {!isEditing && (
+                      <div className="task-title-actions">
+                        {type === 'todo' && !isCompleted && (
+                          <button
+                            className="task-meltdown-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              playClickSound();
+                              dispatch(startMeltdown(task));
+                            }}
+                            title="System Meltdown (Focus Mode)"
+                          >
+                            <Flame size={14} />
+                          </button>
+                        )}
+                        <button
+                          className="task-edit-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsEditing(true);
+                          }}
+                          title="Edit task"
+                        >
+                          <Edit2 size={14} />
+                        </button>
+                      </div>
                     )}
                   </div>
 
+                  {(task.notes || (task.checklist && task.checklist.length > 0)) && (
+                    <div className="task-expand-pills">
+                      {task.notes && (
+                        <button
+                          className="task-expand-toggle"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsNoteExpanded(!isNoteExpanded);
+                          }}
+                        >
+                          <AlignLeft size={12} className="inline-icon" />
+                          <span className="pill-text">Notes</span>
+                          {isNoteExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                        </button>
+                      )}
+                      {task.checklist && task.checklist.length > 0 && (
+                        <button
+                          className="task-expand-toggle"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsChecklistExpanded(!isChecklistExpanded);
+                          }}
+                        >
+                          <List size={12} className="inline-icon" />
+                          <span className="pill-text">
+                            {task.checklist.filter(i => i.completed).length}/{task.checklist.length}
+                          </span>
+                          {isChecklistExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                        </button>
+                      )}
+                    </div>
+                  )}
+
                   {isNoteExpanded && task.notes && (
-                    <div className="task-expanded-content">
-                      {task.notes}
+                    <div className="task-expanded-content markdown-body">
+                      <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+                        {task.notes}
+                      </ReactMarkdown>
                     </div>
                   )}
 
@@ -300,10 +367,10 @@ export default function TaskItem({ task, type, index }) {
                     <div className="task-expanded-content checklist-content">
                       {task.checklist.map(item => (
                         <label key={item.id} className="checklist-item-view" onClick={(e) => e.stopPropagation()}>
-                          <input 
-                            type="checkbox" 
+                          <input
+                            type="checkbox"
                             className="checklist-checkbox"
-                            checked={item.completed} 
+                            checked={item.completed}
                             onChange={() => {
                               const updatedChecklist = task.checklist.map(i => i.id === item.id ? { ...i, completed: !i.completed } : i);
                               dispatch(updateTask({
@@ -318,63 +385,42 @@ export default function TaskItem({ task, type, index }) {
                       ))}
                     </div>
                   )}
-                  <div className="task-meta">
-                    <span className="task-diff" style={{ color: task.isCorrupted ? '#ef4444' : getDiffColor(task.difficulty) }}>
-                      {task.isCorrupted ? 'BOSS FIGHT' : task.difficulty}
-                    </span>
-                    
-                    {type === 'habit' && (
-                      <span className="task-streak text-muted">
-                        <Trophy size={12} className="inline-icon" /> {task.streak}
-                      </span>
-                    )}
 
-                    {type === 'habit' && cooldownLeft !== null && (
-                      <span className="task-timer text-muted" style={{ fontSize: '10px', marginLeft: '6px' }}>
-                        CD: {Math.floor(cooldownLeft / 3600)}h {Math.floor((cooldownLeft % 3600) / 60)}m
-                      </span>
-                    )}
+                  {(task.isCorrupted || type === 'habit') && (
+                    <div className="task-meta">
+                      {task.isCorrupted && (
+                        <span className="task-diff" style={{ color: '#ef4444', fontWeight: 'bold' }}>
+                          BOSS FIGHT
+                        </span>
+                      )}
 
-                    {task.isCorrupted && timeLeft !== null && (
-                      <span className="task-timer text-danger">
-                        {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
-                      </span>
-                    )}
-                  </div>
+                      {type === 'habit' && (
+                        <span className="task-streak text-muted">
+                          <Trophy size={12} className="inline-icon" /> {task.streak}
+                        </span>
+                      )}
+
+                      {type === 'habit' && cooldownLeft !== null && (
+                        <span className="task-timer text-muted" style={{ fontSize: '10px', marginLeft: '6px' }}>
+                          CD: {Math.floor(cooldownLeft / 3600)}h {Math.floor((cooldownLeft % 3600) / 60)}m
+                        </span>
+                      )}
+
+                      {task.isCorrupted && timeLeft !== null && (
+                        <span className="task-timer text-danger">
+                          {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </>
               )}
             </div>
 
             {!isEditing && (
               <div className="task-actions">
-                {type === 'todo' && !isCompleted && (
-                  <button 
-                    className="task-meltdown-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      playClickSound();
-                      dispatch(startMeltdown(task));
-                    }}
-                    title="System Meltdown (Focus Mode)"
-                  >
-                    <Flame size={14} />
-                  </button>
-                )}
-
-                {/* EDIT BUTTON */}
-                <button 
-                  className="task-edit-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsEditing(true);
-                  }}
-                  title="Edit task"
-                >
-                  <Edit2 size={14} />
-                </button>
-
                 {/* REMOVE BUTTON */}
-                <button 
+                <button
                   className="task-remove-btn"
                   onClick={(e) => {
                     e.stopPropagation();

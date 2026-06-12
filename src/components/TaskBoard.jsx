@@ -74,6 +74,7 @@ export default function TaskBoard() {
     }));
     
     setNewTaskTitle('');
+    setNewTaskDiff('medium');
   };
 
   const handleDragEnd = (result) => {
@@ -90,10 +91,10 @@ export default function TaskBoard() {
   ];
 
   const diffOptions = [
-    { value: 'trivial', label: 'Trivial' },
-    { value: 'easy', label: 'Easy' },
-    { value: 'medium', label: 'Medium' },
-    { value: 'hard', label: 'Hard' }
+    { value: 'trivial', label: <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><span style={{ color: 'var(--diff-trivial)' }}>●</span> Trivial</div> },
+    { value: 'easy', label: <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><span style={{ color: 'var(--diff-easy)' }}>●</span> Easy</div> },
+    { value: 'medium', label: <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><span style={{ color: 'var(--diff-medium)' }}>●</span> Medium</div> },
+    { value: 'hard', label: <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><span style={{ color: 'var(--diff-hard)' }}>●</span> Hard</div> }
   ];
 
   return (

@@ -4,23 +4,34 @@
   background: var(--bg-primary);
 }
 
-/* Fixed 3D container, full screen to prevent cutoff, but shifted right */
+/* Fixed 3D container, right half of screen */
 .hero-3d-wrapper {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100vw;
+  right: 0;
+  width: 50vw;
   height: 100vh;
   z-index: 0;
   contain: strict;
-  pointer-events: none; /* Re-enabled so robot is clickable */
-  transform: translateX(25vw); /* Shift the centered model to the right side */
+  pointer-events: none;
+}
+
+/* Vignette overlay to seamlessly blend 3D model */
+.hero-3d-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 20%, var(--bg-primary) 70%);
+  pointer-events: none;
+  z-index: 5;
 }
 
 .hero-spline {
   width: 100% !important;
   height: 100% !important;
-  pointer-events: none; /* Re-enabled so robot is clickable */
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-loading {
@@ -85,7 +96,9 @@
 @media (max-width: 1024px) {
   .hero-3d-wrapper {
     width: 100vw;
-    transform: translateX(0);
+    right: auto;
+    left: 0;
+    transform: none;
     opacity: 0.3;
   }
   .hero-text-block {

@@ -7,16 +7,12 @@
   border: 1px solid rgba(255, 255, 255, 0.03);
   border-radius: var(--radius-standard);
   margin-bottom: 6px;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s ease-out, background 0.15s ease;
-  will-change: transform;
+  transition: box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s ease-out, background 0.15s ease;
 }
 
 .task-item:hover {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
   border-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px) scale(1.01) rotateX(2deg);
   box-shadow: 
     0 12px 32px rgba(0, 0, 0, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.05),
@@ -151,16 +147,17 @@
 
 /* CORRUPTED TASK */
 .is-corrupted {
+  transition: none !important;
   animation: taskGlitch 3s infinite;
   box-shadow: 0 0 16px rgba(239, 68, 68, 0.1);
 }
 
 @keyframes taskGlitch {
-  0% { transform: translate(0) }
-  1% { transform: translate(-2px, 1px) }
-  2% { transform: translate(2px, -1px) }
-  3% { transform: translate(0) }
-  100% { transform: translate(0) }
+  0% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.1); }
+  1% { box-shadow: -4px 2px 24px rgba(239, 68, 68, 0.4); border-color: rgba(239, 68, 68, 0.8); }
+  2% { box-shadow: 4px -2px 24px rgba(239, 68, 68, 0.4); border-color: rgba(239, 68, 68, 0.8); }
+  3% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
+  100% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.1); }
 }
 
 .task-diff {
